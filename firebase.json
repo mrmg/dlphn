@@ -1,0 +1,98 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/card",
+        "type": 302
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/ideas",
+        "destination": "/ideas.html"
+      },
+      {
+        "source": "/card",
+        "destination": "/card/index.html"
+      },
+      {
+        "source": "/games",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/horrid",
+        "destination": "/horrid/horrid.html"
+      },
+      {
+        "source": "/assets/**",
+        "destination": "/assets/**"
+      },
+      {
+        "source": "/src/**",
+        "destination": "/src/**"
+      },
+      {
+        "source": "/social-image.png",
+        "destination": "/social-image.png"
+      },
+      {
+        "source": "/horrid/gallery",
+        "destination": "/horrid/gallery.html"
+      },
+      {
+        "source": "/horrid/admin",
+        "destination": "/horrid/admin.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.{png,jpg,jpeg,gif,svg,webp,mp3}",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.js",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/javascript"
+          }
+        ]
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

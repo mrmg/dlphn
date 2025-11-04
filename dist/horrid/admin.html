@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horrid Henry Admin</title>
+    <link href="https://fonts.cdnfonts.com/css/dacherry" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Dacherry', sans-serif;
+        }
+
+        body {
+            font-family: 'Dacherry', sans-serif;
+            font-weight: 400;
+            background-color: #FFEB3B;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            border: 6px solid #000;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 0 #000;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #666;
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            color: #2196F3;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 3em;
+            font-weight: normal;
+            text-shadow: 3px 3px 0 #000;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #9C27B0;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: normal;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #E8F5E8;
+            border: 4px solid #4CAF50;
+            border-radius: 15px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+
+        .form-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .form-button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: 3px solid #000;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+
+        .form-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .form-button.secondary {
+            background-color: #2196F3;
+        }
+
+        .form-button.secondary:hover {
+            background-color: #1976D2;
+        }
+
+        .form-button.danger {
+            background-color: #F44336;
+        }
+
+        .form-button.danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: #2196F3;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .auth-toggle button:hover {
+            color: #1976D2;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            border: 3px solid #F44336;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background-color: #E8F5E8;
+            border: 3px solid #4CAF50;
+            color: #2E7D32;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: none;
+        }
+
+        .admin-dashboard.active {
+            display: block;
+        }
+
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #F8F9FA;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+        }
+
+        .admin-section h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .admin-input {
+            padding: 8px 12px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+
+        .admin-button {
+            background-color: #4CAF50;
+            color: white;
+            border: 3px solid #000;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .admin-button:hover {
+            background-color: #45a049;
+        }
+
+        .admin-button.danger {
+            background-color: #F44336;
+        }
+
+        .admin-button.danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .admin-button.secondary {
+            background-color: #2196F3;
+        }
+
+        .admin-button.secondary:hover {
+            background-color: #1976D2;
+        }
+
+        /* Gallery Grid with Checkboxes */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .character-card {
+            background-color: #E8F5E8;
+            border: 3px solid #000;
+            border-radius: 12px;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-card.selected {
+            border-color: #F44336;
+            background-color: #ffebee;
+        }
+
+        .character-checkbox {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 20px;
+            height: 20px;
+            z-index: 10;
+        }
+
+        .character-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #000;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .character-info {
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+
+        .character-creator {
+            color: #666;
+            font-style: italic;
+        }
+
+        .character-date {
+            color: #666;
+            font-style: italic;
+            font-size: 0.8em;
+        }
+
+        .bulk-actions {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #E3F2FD;
+            border: 3px solid #2196F3;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .bulk-actions.active {
+            display: block;
+        }
+
+        .status-message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .status-message.success {
+            background-color: #E8F5E8;
+            border: 2px solid #4CAF50;
+            color: #2E7D32;
+        }
+
+        .status-message.error {
+            background-color: #ffebee;
+            border: 2px solid #F44336;
+            color: #c62828;
+        }
+
+        .status-message.info {
+            background-color: #E3F2FD;
+            border: 2px solid #2196F3;
+            color: #1976D2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.5em;
+            color: #4CAF50;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #4CAF50;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* User Management Styles */
+        .users-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .user-card {
+            background-color: #F8F9FA;
+            border: 3px solid #4CAF50;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .user-card.pending {
+            border-color: #FF9800;
+            background-color: #FFF3E0;
+        }
+
+        .user-card.admin {
+            border-color: #4CAF50;
+            background-color: #E8F5E8;
+        }
+
+        .user-card.rejected {
+            border-color: #F44336;
+            background-color: #ffebee;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-email {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-status {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .user-date {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.1);
+        }
+
+        .reject-btn {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: #d32f2f;
+            transform: scale(1.1);
+        }
+
+        .admin-badge {
+            background-color: #4CAF50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .pending-badge {
+            background-color: #FF9800;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/horrid-admin-FQlnUlX1.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/firebase-DUdpmxwz.js">
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+            <img src="/assets/horrid-dolphin.png" alt="Horrid Dolphin Logo" style="max-width: 180px; height: auto;">
+            <div style="flex: 1; padding-right: 5px;">
+                <h1 style="margin-bottom: 5px; text-align: right;">ADMIN DASHBOARD</h1>
+                <p class="subtitle" style="margin-bottom: 0; text-align: right;">Manage galleries, users, and characters</p>
+            </div>
+        </div>
+
+        <a href="/horrid/gallery" class="back-button">← Back to Gallery</a>
+
+        <!-- Auth Forms -->
+        <div id="authContainer" class="auth-container">
+            <div id="loginForm" class="auth-form active">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #4CAF50;">Admin Login</h2>
+                <div id="errorMessage" class="error-message"></div>
+                <div id="successMessage" class="success-message"></div>
+                
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail" class="form-label">Email:</label>
+                        <input type="email" id="loginEmail" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword" class="form-label">Password:</label>
+                        <input type="password" id="loginPassword" class="form-input" required>
+                    </div>
+                    <button type="submit" class="form-button">Login</button>
+                </form>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
+                    <p style="color: #666; margin-bottom: 15px;">Or sign in with</p>
+                    <button id="googleLoginBtn" class="form-button secondary" style="width: 100%; background-color: #4285F4; border-color: #4285F4;">
+                        <span style="margin-right: 10px;">🔍</span> Google
+                    </button>
+                </div>
+                
+                <div class="auth-toggle">
+                    <button type="button" id="showRegister">Don't have an account? Register</button>
+                </div>
+            </div>
+
+            <div id="registerForm" class="auth-form">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #4CAF50;">Admin Registration</h2>
+                <div id="registerErrorMessage" class="error-message"></div>
+                <div id="registerSuccessMessage" class="success-message"></div>
+                
+                <form id="registerFormElement">
+                    <div class="form-group">
+                        <label for="registerEmail" class="form-label">Email:</label>
+                        <input type="email" id="registerEmail" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword" class="form-label">Password:</label>
+                        <input type="password" id="registerPassword" class="form-input" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" class="form-input" required>
+                    </div>
+                    <button type="submit" class="form-button">Register</button>
+                </form>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
+                    <p style="color: #666; margin-bottom: 15px;">Or sign up with</p>
+                    <button id="googleRegisterBtn" class="form-button secondary" style="width: 100%; background-color: #4285F4; border-color: #4285F4;">
+                        <span style="margin-right: 10px;">🔍</span> Google
+                    </button>
+                </div>
+                
+                <div class="auth-toggle">
+                    <button type="button" id="showLogin">Already have an account? Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="admin-dashboard">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <p>Welcome, <span id="adminEmail"></span>!</p>
+                <button id="logoutBtn" class="form-button danger" style="width: auto; margin-top: 10px;">Logout</button>
+            </div>
+
+            <!-- Gallery Management -->
+            <div class="admin-section">
+                <h3>Gallery Management</h3>
+                <h3>Add new gallery</h3>
+                <div class="admin-controls">
+                    <input type="text" id="newGalleryName" class="admin-input" placeholder="Gallery name">
+                    <button id="createGallery" class="admin-button">Create Gallery</button>
+                </div>
+
+                <h3>Manage Galleries</h3>
+                <div class="admin-controls">
+                    <select id="currentGallery" class="admin-input">
+                        <option value="">Select gallery to manage</option>
+                    </select>
+                    <button id="setCurrentGallery" class="admin-button primary">Set as Current</button>
+                    <button id="deleteGallery" class="admin-button danger">Delete Gallery</button>
+                </div>
+                <div id="galleryStatus" class="status-message"></div>
+            </div>
+
+
+            <!-- User Management -->
+            <div class="admin-section">
+                <h3>User Management</h3>
+                <div class="admin-controls">
+                    <button id="refreshUsersBtn" class="admin-button secondary">Refresh Users</button>
+                </div>
+                <div id="userStatus" class="status-message"></div>
+                <div id="usersList" class="users-list"></div>
+            </div>
+
+            <!-- Character Management -->
+            <div class="admin-section">
+                <h3>Character Management</h3>
+                <div class="admin-controls" style="margin-bottom: 20px;">
+                    <label for="characterGalleryFilter" style="font-weight: bold; color: #4CAF50;">Filter by Gallery:</label>
+                    <select id="characterGalleryFilter" class="admin-input">
+                        <option value="all">All Galleries</option>
+                    </select>
+                    <button id="refreshCharactersBtn" class="admin-button secondary">Refresh Characters</button>
+                </div>
+                <div class="bulk-actions" id="bulkActions">
+                    <span id="selectedCount">0 selected</span>
+                    <button id="selectAllBtn" class="admin-button secondary">Select All</button>
+                    <button id="deselectAllBtn" class="admin-button secondary">Deselect All</button>
+                    <button id="bulkDeleteBtn" class="admin-button danger">Delete Selected</button>
+                </div>
+                <div id="characterStatus" class="status-message"></div>
+                <div id="characterGrid" class="gallery-grid"></div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script type="module" crossorigin src="/assets/horrid-admin-FQlnUlX1.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+rules_version = '2';
+
+// Storage rules for card maker and other microsites
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow public read access to all files
+    match /{allPaths=**} {
+      allow read: if true;
+    }
+    
+    // Allow write access for card uploads (no authentication required for simplicity)
+    match /cards/{cardId} {
+      allow write: if true;
+    }
+    
+    // Allow write access for other microsite content
+    match /ideas/{imageId} {
+      allow write: if true;
+    }
+    
+// Allow write access for character images
+match /character-images/{characterId} {
+  allow write: if true;
+}
+    
+    // Deny all other writes for security
+    match /{allPaths=**} {
+      allow write: if false;
+    }
+  }
+}

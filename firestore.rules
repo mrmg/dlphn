@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public read access to character queries for the gallery
+    match /characterQueries/{document} {
+      allow read: if true;
+      allow write: if true; // Allow writes for migration and character creation
+    }
+    
+    // Allow access to monster queries for migration
+    match /monsterQueries/{document} {
+      allow read: if true;
+      allow write: if true; // Allow writes for migration cleanup
+    }
+    
+    // Allow access to user registrations and admin management
+    match /userRegistrations/{document} {
+      allow read: if true;
+      allow write: if true; // Allow writes for user registration
+    }
+    
+    match /admins/{document} {
+      allow read: if true;
+      allow write: if true; // Allow writes for admin management
+    }
+    
+    match /settings/{document} {
+      allow read: if true;
+      allow write: if true; // Allow writes for settings management
+    }
+    
+    // Allow public read access to memory queries for the ideas page
+    match /memoryQueries/{document} {
+      allow read: if true;
+      allow write: if false; // Only Cloud Functions can write
+    }
+    
+    // Allow public read access to project templates
+    match /projectTemplates/{document} {
+      allow read: if true;
+      allow write: if false; // Only admin can write
+    }
+    
+    // Allow public read access to character templates
+    match /characterTemplates/{document} {
+      allow read: if true;
+      allow write: if false; // Only admin can write
+    }
+    
+    // Allow public read access to scores for leaderboards
+    match /scores/{document} {
+      allow read: if true;
+      allow write: if true; // Allow public writes for score submissions
+    }
+    
+    // Deny all other reads for security
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+  }
+}

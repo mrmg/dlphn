@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Card Maker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="topbar">
+        <div class="left">
+          <button class="back" onclick="window.location.href='/'">← Back to Games</button>
+        </div>
+        <h1 class="title">Player Card Maker</h1>
+        <div class="right"></div>
+      </header>
+
+      <main class="content">
+        <section class="editor">
+          <div class="canvas-wrap">
+            <canvas id="cardCanvas" width="720" height="1024"></canvas>
+          </div>
+        </section>
+
+        <section class="form">
+          <div class="photo">
+            <div class="photo-controls">
+              <label class="file-input" id="uploadBtnWrap">
+                <input type="file" id="photoInput" accept="image/*" />
+                <span>Upload Photo</span>
+              </label>
+              <div class="zoom-control" id="zoomControls" style="display:none">
+                <div class="zoom-row">
+                  <span>Zoom</span>
+                  <div class="threshold-controls">
+                    <button id="zoomMinus" type="button" class="btn-muted small">−</button>
+                    <span id="zoomValue">100%</span>
+                    <button id="zoomPlus" type="button" class="btn-muted small">+</button>
+                  </div>
+                  <div class="spacer"></div>
+                  <button id="resetPhoto" type="button">Reset</button>
+                </div>
+                <div id="bgSubControls" class="threshold-controls" style="display:none">
+                  <span>Threshold</span>
+                  <button id="thrMinus" type="button" class="btn-muted small">−</button>
+                  <span id="thrValue">50%</span>
+                  <button id="thrPlus" type="button" class="btn-muted small">+</button>
+                  <input type="range" id="removeBgThreshold" min="0.05" max="0.99" step="0.01" value="0.50" style="display:none" />
+                  <input type="checkbox" id="invertMaskToggle" checked style="display:none" />
+                </div>
+                <input id="zoomRange" type="range" min="0.25" max="3" step="0.01" value="1" style="display:none" />
+              </div>
+              <div class="bg-tools" id="bgTools" style="display:none">
+                <button id="removeBgBtn" type="button" class="btn-accent">Remove background</button>
+                <div id="bgSpinner" class="spinner" style="display:none"></div>
+                <div id="bgStatus" class="status"></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="playerName">Name</label>
+              <input id="playerName" maxlength="20" placeholder="Player name" />
+            </div>
+            <div class="field">
+              <label for="position">Position</label>
+              <select id="position">
+                <option value="FWD">Forward</option>
+                <option value="MID">Midfielder</option>
+                <option value="DEF" selected>Defender</option>
+                <option value="GK">Goalkeeper</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <select id="country"></select>
+            </div>
+            <div class="field">
+              <label for="houseSelect">House</label>
+              <select id="houseSelect">
+                <option value="">Default</option>
+                <option value="York">York</option>
+                <option value="Lancaster">Lancaster</option>
+                <option value="Plantagenet">Plantagenet</option>
+                <option value="Tudor">Tudor</option>
+                <option value="Gold">Gold</option>
+                <option value="Silver">Silver</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="stats">
+            <h3>Stats</h3>
+            <div class="stats-grid">
+              <label data-stat="PAC">PAC <input id="statPAC" type="number" min="1" max="99" value="70"></label>
+              <label data-stat="SHO">SHO <input id="statSHO" type="number" min="1" max="99" value="60"></label>
+              <label data-stat="PAS">PAS <input id="statPAS" type="number" min="1" max="99" value="65"></label>
+              <label data-stat="DRI">DRI <input id="statDRI" type="number" min="1" max="99" value="68"></label>
+              <label data-stat="DEF">DEF <input id="statDEF" type="number" min="1" max="99" value="75"></label>
+              <label data-stat="PHY">PHY <input id="statPHY" type="number" min="1" max="99" value="72"></label>
+              <label data-stat="SOX">SOX <input id="statSOX" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="AGI">AGI <input id="statAGI" type="number" min="1" max="99" placeholder=""></label>
+              <div style="grid-column: 1 / -1; height: 6px;"></div>
+              <label data-stat="GKDIV">DIV <input id="statGKDIV" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="GKHAN">HAN <input id="statGKHAN" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="GKKIC">KIC <input id="statGKKIC" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="GKREF">REF <input id="statGKREF" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="GKSPD">SPD <input id="statGKSPD" type="number" min="1" max="99" placeholder=""></label>
+              <label data-stat="GKPOS">POS <input id="statGKPOS" type="number" min="1" max="99" placeholder=""></label>
+            </div>
+            <div class="overall-row">
+              <div>
+                <span class="overall-label">Overall</span>
+                <span id="overallValue" class="overall-value">75</span>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+    import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-35jua6EQ5md0fL1f7Bd4nnpz2wKXlUU",
+      authDomain: "dolphin-thursday.firebaseapp.com",
+      projectId: "dolphin-thursday",
+      storageBucket: "dolphin-thursday.firebasestorage.app",
+      messagingSenderId: "885293763604",
+      appId: "1:885293763604:web:5f87d5cfcce0a43c33eb01",
+      measurementId: "G-2QQ9R9ZEHX"
+    };
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const storage = getStorage(app);
+      
+      // Expose a safe logger for main.js
+      window.analyticsLogEvent = (name, params) => {
+        try { logEvent(analytics, name, params || {}); } catch (_) {}
+      };
+      
+      // Expose storage functions for main.js
+      window.firebaseStorage = {
+        storage,
+        ref,
+        uploadBytes
+      };
+    } catch (e) {
+      // Ignore if analytics not supported in this environment
+      console.warn('Firebase init skipped:', e?.message || e);
+    }
+  </script>
+</html>

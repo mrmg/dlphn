@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horrid Henry Character Creator</title>
+    <link href="https://fonts.cdnfonts.com/css/dacherry" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Dacherry', sans-serif;
+        }
+
+        body {
+            font-family: 'Dacherry', sans-serif;
+            font-weight: 400;
+            background-color: #FFEB3B; /* Bright yellow like Horrid Henry */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: white;
+            border: 6px solid #000; /* Thick black outline */
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 0 #000; /* Bold shadow effect */
+            position: relative;
+            overflow: visible;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #666;
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            color: #2196F3; /* Electric blue */
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 3em;
+            font-weight: normal;
+            text-shadow: 3px 3px 0 #000; /* Bold text shadow */
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #9C27B0; /* Rich purple */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: normal;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .input-section {
+            background-color: #E8F5E8; /* Light green background */
+            border: 4px solid #000;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 1.8em;
+            font-weight: normal;
+            color: #000;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+        .character-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            border: 4px solid #000;
+            border-radius: 15px;
+            font-size: 1.4em;
+            font-family: sans-serif;
+            font-weight: normal;
+            background-color: #fff;
+            resize: vertical;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .character-input {
+            width: 100%;
+            padding: 10px;
+            border: 4px solid #000;
+            border-radius: 15px;
+            font-size: 1.4em;
+            font-family: sans-serif;
+            font-weight: normal;
+            background-color: #fff;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .name-input {
+            min-height: auto !important;
+            height: 60px;
+            font-size: 1.1em;
+            padding: 8px 12px;
+            font-family: sans-serif;
+        }
+
+        .mode-toggle {
+            background-color: #4CAF50;
+            color: white;
+            border: 3px solid #000;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-block;
+        }
+
+        .mode-toggle:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .detailed-mode {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #E8F5E8;
+            border: 3px solid #4CAF50;
+            border-radius: 10px;
+        }
+
+        .detailed-input {
+            width: 100%;
+            height: 50px;
+            padding: 10px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-family: sans-serif;
+            font-weight: normal;
+            background-color: #fff;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .detailed-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .textarea-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .microphone-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            background-color: #FF6B6B;
+            color: white;
+            border: 3px solid #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .microphone-btn:hover {
+            background-color: #FF5252;
+            transform: scale(1.1);
+        }
+
+        .microphone-btn.recording {
+            background-color: #4CAF50;
+            animation: pulse 1s infinite;
+        }
+
+        .microphone-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .speech-timer {
+            position: absolute;
+            right: 60px;
+            bottom: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: normal;
+            display: none;
+            z-index: 10;
+        }
+
+        .speech-status {
+            position: absolute;
+            right: 10px;
+            bottom: 55px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: normal;
+            display: none;
+            z-index: 10;
+        }
+
+        .character-input:focus {
+            border-color: #4CAF50; /* Lime green when focused */
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Print Styles */
+        @media print {
+            /* Hide everything by default */
+            * {
+                visibility: hidden;
+            }
+            
+            /* Show only the character image and description */
+            .character-image,
+            .character-image *,
+            .character-description,
+            .character-description * {
+                visibility: visible;
+            }
+            
+            /* Ensure proper page setup - minimal margins */
+            @page {
+                margin: 0.25in;
+                size: A4;
+            }
+            
+            /* Style the print layout - compact design */
+            .character-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                max-height: 75vh;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                object-fit: contain;
+            }
+            
+            .character-description {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                margin: 0;
+                padding: 4px 6px;
+                background: white;
+                font-family: 'Dacherry', sans-serif;
+                font-size: 6px;
+                line-height: 1.1;
+                color: #333;
+                border: 1px solid #000;
+                border-radius: 3px;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                max-height: 20vh;
+                overflow: hidden;
+            }
+            
+            /* Hide all other elements including close buttons */
+            body > *:not(.character-image):not(.character-description) {
+                display: none !important;
+            }
+            
+            /* Hide close buttons and modal elements */
+            .close,
+            .modal-close,
+            button,
+            .button,
+            .btn {
+                display: none !important;
+                visibility: hidden !important;
+            }
+            
+            /* Style the description text - clean and simple */
+            .character-description h3 {
+                color: #FF6B6B;
+                font-size: 7px;
+                margin: 0 0 2px 0;
+                text-align: center;
+                font-weight: normal;
+            }
+            
+            .character-description p {
+                margin: 0;
+                font-style: italic;
+                text-align: center;
+                font-size: 5px;
+                line-height: 1.0;
+                word-wrap: break-word;
+            }
+            
+            /* Ensure single page */
+            html, body {
+                height: 100vh;
+                overflow: hidden;
+            }
+            
+            /* Hide any modal overlays or backgrounds */
+            .modal,
+            .modal-backdrop,
+            .overlay {
+                display: none !important;
+                visibility: hidden !important;
+            }
+        }
+
+        .character-count {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: normal;
+            color: #666;
+        }
+
+        .character-count.warning {
+            color: #F44336; /* Red for warning */
+        }
+
+        .example-text {
+            background-color: #FFF3E0; /* Light orange */
+            border: 3px solid #FF9800; /* Orange border */
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-style: italic;
+            color: #E65100; /* Dark orange text */
+        }
+
+        .generate-button {
+            background-color: #4CAF50; /* Lime green */
+            color: white;
+            border: 4px solid #000;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-size: 1.8em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.2s;
+            box-shadow: 0 6px 0 #000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .generate-button:hover:not(:disabled) {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #000;
+        }
+
+        .generate-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .clear-button {
+            background-color: #F44336; /* Red */
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .clear-button:hover:not(:disabled) {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .clear-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .ideas-button {
+            background-color: #FF9800; /* Orange */
+            color: white;
+            border: 3px solid #000;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 1.8em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .ideas-button:hover:not(:disabled) {
+            background-color: #F57C00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .ideas-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        /* Ideas Modal Styles */
+        .ideas-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .ideas-modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 30px;
+            border: 6px solid #000;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 0 #000;
+        }
+
+        .ideas-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #666;
+            font-size: 40px;
+            font-weight: normal;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .ideas-close:hover {
+            color: #000;
+        }
+
+        .ideas-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #F8F9FA;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+        }
+
+        .ideas-section h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 0 #000;
+            font-size: 1.4em;
+        }
+
+        .ideas-section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .ideas-section li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-size: 1.1em;
+        }
+
+        .ideas-close-button {
+            background-color: #4CAF50;
+            color: white;
+            border: 4px solid #000;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 #000;
+            transition: all 0.2s;
+        }
+
+        .ideas-close-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .gallery-button {
+            background-color: #2196F3; /* Electric blue */
+            color: white;
+            border: 3px solid #000;
+            padding: 12px 24px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 #000;
+            transition: all 0.2s;
+        }
+
+        .gallery-button:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #4CAF50;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.5em;
+            font-weight: normal;
+            color: #4CAF50;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .error {
+            display: none;
+            background-color: #ffebee;
+            border: 4px solid #F44336;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .character-image {
+            max-width: 100%;
+            height: auto;
+            border: 6px solid #000;
+            border-radius: 20px;
+            box-shadow: 0 8px 0 #000;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .print-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #E3F2FD; /* Light blue */
+            border: 4px solid #2196F3;
+            border-radius: 15px;
+        }
+
+        .print-button {
+            background-color: #2196F3; /* Electric blue */
+            color: white;
+            border: 4px solid #000;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.4em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .print-button:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .download-button {
+            background-color: #9C27B0; /* Rich purple */
+            color: white;
+            border: 4px solid #000;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.4em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .download-button:hover {
+            background-color: #7B1FA2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .metadata {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #F3E5F5; /* Light purple */
+            border: 3px solid #9C27B0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            color: #4A148C;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border: 2px solid #000;
+            }
+            
+            .back-button,
+            .generate-button,
+            .print-section {
+                display: none;
+            }
+            
+            .character-image {
+                max-width: 100%;
+                height: auto;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+            
+            .character-input {
+                font-size: 1.1em;
+                min-height: 120px;
+            }
+            
+            .detailed-input {
+                font-size: 1em;
+            }
+            
+            .name-input {
+                font-size: 1em;
+            }
+            
+            .generate-button {
+                font-size: 1.5em;
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 478px) {
+            body {
+                background-color: #E8F5E8 !important;
+            }
+            
+            .container {
+                background-color: transparent;
+                border: none;
+                padding: 5px;
+                margin: 0;
+                max-width: 100%;
+                width: 100%;
+                box-shadow: none;
+            }
+            
+            .character-input {
+                font-size: 1em;
+            }
+            
+            .detailed-input {
+                font-size: 0.9em;
+            }
+            
+            .name-input {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+            <img src="/assets/horrid-dolphin.png" alt="Horrid Dolphin Logo" style="max-width: 180px; height: auto;">
+            <div style="flex: 1; padding-right: 5px;">
+                <h1 style="margin-bottom: 5px; text-align: right;">HORRID HENRY'S CHARACTER CREATOR</h1>
+                <p class="subtitle" style="margin-bottom: 0; text-align: right;">Describe your character and watch it come to life!</p>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <label for="characterDescription" class="input-label" style="margin-bottom: 0;">
+                    Tell us about your character:
+                </label>
+                <button id="ideasBtn" class="ideas-button" title="Click for character ideas and inspiration">
+                    ?
+                </button>
+            </div>
+            <div class="textarea-container">
+                <textarea 
+                    id="characterDescription" 
+                    class="character-input" 
+                    placeholder="My character has spiky hair, wears a red shirt, and loves to play pranks. They have a mischievous smile and always carry a water pistol..."
+                    maxlength="500"
+                ></textarea>
+                <button id="microphoneBtn" class="microphone-btn" title="Click to speak (30 seconds max)">
+                    🎤
+                </button>
+                <div id="speechTimer" class="speech-timer">30s</div>
+                <div id="speechStatus" class="speech-status">Listening...</div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px;">
+                <div id="characterCount" class="character-count">0 / 500 characters</div>
+            </div>
+            
+            <label for="creatorName" class="input-label" style="margin-top: 20px;">
+                👤 Your name (optional):
+            </label>
+            <input 
+                type="text" 
+                id="creatorName" 
+                class="character-input name-input" 
+                placeholder="Enter your name or leave blank to remain anonymous"
+                maxlength="50"
+            >
+            
+            
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button id="clearBtn" class="clear-button">
+                    🗑️ CLEAR ALL
+                </button>
+            </div>
+        </div>
+        
+        <button id="generateBtn" class="generate-button">
+            CREATE MY CHARACTER!
+        </button>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p class="loading-text">Creating your amazing character... This might take a moment!</p>
+            <p class="loading-text" style="font-size: 1.2em; margin-top: 10px; color: #9C27B0;">You'll be taken to the gallery to see your creation!</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/horrid/gallery" class="gallery-button">View Gallery</a>
+        </div>
+        
+        <div id="error" class="error"></div>
+        
+        <div id="result" class="result">
+            <div id="imageContainer"></div>
+            <div class="print-section">
+                <h3 style="color: #2196F3; margin-bottom: 15px; text-shadow: 1px 1px 0 #000;">Print Your Character</h3>
+                <button id="printBtn" class="print-button">Print Character</button>
+                <button id="downloadBtn" class="download-button">Download Image</button>
+            </div>
+            <div id="metadata" class="metadata"></div>
+        </div>
+    </div>
+
+    <!-- Ideas Overlay Modal -->
+    <div id="ideasModal" class="ideas-modal">
+        <div class="ideas-modal-content">
+            <span class="ideas-close">&times;</span>
+            <h2 style="color: #2196F3; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 0 #000;">Character Ideas & Inspiration</h2>
+            
+            <div class="ideas-section">
+                <h3>Physical Features</h3>
+                <ul>
+                    <li><strong>Hair:</strong> Spiky hair, curly hair, straight hair, messy hair, colorful hair, no hair, long hair, short hair</li>
+                    <li><strong>Eyes:</strong> Big eyes, small eyes, different colored eyes, glasses, sunglasses, one eye closed</li>
+                    <li><strong>Clothing:</strong> Red shirt, blue jeans, striped shirt, school uniform, hat, jacket, colorful clothes</li>
+                    <li><strong>Accessories:</strong> Water pistol, toy, book, backpack, watch, necklace, bracelet</li>
+                    <li><strong>Expression:</strong> Mischievous smile, big grin, cheeky look, determined face, excited expression</li>
+                </ul>
+            </div>
+
+            <div class="ideas-section">
+                <h3>Colors & Style</h3>
+                <ul>
+                    <li><strong>Colors:</strong> Bright red, electric blue, lime green, purple, yellow, orange, pink, rainbow colors</li>
+                    <li><strong>Patterns:</strong> Stripes, spots, polka dots, checkered, plaid, tie-dye, stars</li>
+                    <li><strong>Style:</strong> Bold, colorful, playful, mischievous, energetic, fun, creative</li>
+                </ul>
+            </div>
+
+            <div class="ideas-section">
+                <h3>🎭 Special Features</h3>
+                <ul>
+                    <li><strong>Personality:</strong> Mischievous, funny, clever, adventurous, creative, playful, cheeky</li>
+                    <li><strong>Hobbies:</strong> Playing pranks, drawing, reading, playing games, telling jokes, making messes</li>
+                    <li><strong>Powers:</strong> Super speed, invisibility, super strength, magic tricks, super imagination</li>
+                    <li><strong>Other:</strong> Freckles, dimples, braces, band-aids, stickers, temporary tattoos</li>
+                </ul>
+            </div>
+
+            <div class="ideas-section">
+                <h3>🍕 Personality & Habits</h3>
+                <ul>
+                    <li><strong>Likes to do:</strong> Play pranks, draw pictures, read books, play games, tell jokes, make friends</li>
+                    <li><strong>Lives in:</strong> A house, apartment, treehouse, school, neighborhood, magical place</li>
+                    <li><strong>Special talents:</strong> Drawing, telling jokes, making friends, being creative, solving puzzles</li>
+                    <li><strong>Personality:</strong> Mischievous, funny, clever, adventurous, creative, playful, cheeky, friendly</li>
+                </ul>
+            </div>
+
+            <div class="ideas-section">
+                <h3>🎭 Fun Combinations</h3>
+                <ul>
+                    <li>A cheeky character with spiky red hair who loves playing pranks</li>
+                    <li>A creative character with glasses who always carries a sketchbook</li>
+                    <li>A mischievous character with a big grin and a water pistol</li>
+                    <li>A funny character with freckles who tells the best jokes</li>
+                    <li>A clever character with messy hair who loves solving puzzles</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="closeIdeasBtn" class="ideas-close-button">Got It! Let's Create!</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/character.js"></script>
+</body>
+</html>

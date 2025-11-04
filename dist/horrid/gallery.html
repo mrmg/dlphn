@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horrid Henry Character Gallery</title>
+    <link href="https://fonts.cdnfonts.com/css/dacherry" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Dacherry', sans-serif;
+        }
+
+        body {
+            font-family: 'Dacherry', sans-serif;
+            font-weight: 400;
+            background-color: #FFEB3B; /* Bright yellow like Horrid Henry */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            border: 6px solid #000; /* Thick black outline */
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 0 #000; /* Bold shadow effect */
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #666;
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        .create-button {
+            background-color: #4CAF50; /* Lime green */
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .create-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            color: #2196F3; /* Electric blue */
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 3em;
+            font-weight: normal;
+            text-shadow: 3px 3px 0 #000; /* Bold text shadow */
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #9C27B0; /* Rich purple */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: normal;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .character-card {
+            background-color: #E8F5E8; /* Light green background */
+            border: 3px solid #000;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .monster-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 0 #000;
+            background-color: #D4F4D4;
+        }
+
+        .character-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #000;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+
+        .character-creator {
+            margin-top: 6px;
+            font-size: 0.75em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .character-date {
+            margin-top: 6px;
+            font-size: 0.75em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.5em;
+            color: #4CAF50;
+            font-weight: normal;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #4CAF50;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background-color: #ffebee;
+            border: 4px solid #F44336;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-gallery h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #9C27B0;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .empty-gallery p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .empty-gallery .create-button {
+            position: static;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #E8F5E8;
+            border: 4px solid #4CAF50;
+            border-radius: 15px;
+        }
+
+        .pagination-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: 3px solid #000;
+            padding: 12px 24px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .pagination-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .page-info {
+            font-size: 1.3em;
+            font-weight: normal;
+            color: #4CAF50;
+            text-shadow: 1px 1px 0 #000;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 30px;
+            border: 6px solid #000;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 0 #000;
+        }
+
+        .modal-close-header {
+            background-color: #FF6B6B; /* Red background */
+            border: 4px solid #000;
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background-color: #4CAF50; /* Lime green */
+            color: white;
+            border: 3px solid #000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #000;
+            flex-shrink: 0;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .nav-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .close-button {
+            color: white;
+            font-size: 1.5em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .close-button:hover {
+            background-color: #FF5252;
+            transform: scale(1.05);
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .modal-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border: 4px solid #000;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .modal-prompt {
+            background-color: #FFF3E0; /* Light orange */
+            border: 3px solid #FF9800; /* Orange border */
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.3em;
+            font-weight: normal;
+            color: #E65100; /* Dark orange text */
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-prompt::before {
+            content: '"';
+            font-size: 3em;
+            color: #FF9800;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .modal-prompt::after {
+            content: '"';
+            font-size: 3em;
+            color: #FF9800;
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+        }
+
+        .modal-prompt-label {
+            background-color: #E3F2FD; /* Light blue */
+            border: 3px solid #2196F3; /* Electric blue */
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+            font-weight: normal;
+            color: #1976D2;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .modal-button {
+            background-color: #4CAF50; /* Lime green */
+            color: white;
+            border: 4px solid #000;
+            padding: 12px 24px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 #000;
+            transition: all 0.2s;
+        }
+
+        .modal-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #000;
+        }
+
+        .modal-button.secondary {
+            background-color: #2196F3; /* Electric blue */
+        }
+
+        .modal-button.secondary:hover {
+            background-color: #1976D2;
+        }
+
+        .modal-button.danger {
+            background-color: #F44336; /* Red */
+        }
+
+        .modal-button.danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .modal-button.recreate {
+            background-color: #9C27B0; /* Rich purple */
+        }
+
+        .modal-button.recreate:hover {
+            background-color: #7B1FA2;
+        }
+
+        .modal-button.share {
+            background-color: #FF9800; /* Orange */
+        }
+
+        .modal-button.share:hover {
+            background-color: #F57C00;
+        }
+
+        .admin-toggle {
+            background-color: #666;
+            color: white;
+            border: 3px solid #000;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: normal;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .admin-toggle:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 12px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+                margin: 5% auto;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .modal-close-header {
+                padding: 10px 15px;
+            }
+            
+            .nav-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+            
+            .close-button {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-info {
+                display: none;
+            }
+            
+            .admin-input {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 478px) {
+            body {
+                background-color: #E8F5E8 !important;
+            }
+            
+            .container {
+                background-color: transparent;
+                border: none;
+                padding: 5px;
+                margin: 0;
+                max-width: 100%;
+                width: 100%;
+                box-shadow: none;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            
+            .admin-input {
+                font-size: 13px;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/horrid-gallery-main-BEVEkIWM.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/firebase-DUdpmxwz.js">
+  <link rel="modulepreload" crossorigin href="/assets/index.esm2017-CoYHClvc.js">
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;">
+            <img src="/assets/horrid-dolphin.png" alt="Horrid Dolphin Logo" style="max-width: 180px; height: auto;">
+            <div style="flex: 1; padding-right: 5px;">
+                <h1 style="margin-bottom: 5px; text-align: right;">CHARACTER GALLERY</h1>
+                <p class="subtitle" style="margin-bottom: 0; text-align: right;">See all the amazing characters created by students!</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; align-items: center;">
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div id="currentGalleryDisplay" style="font-size: 1.2em; font-weight: bold;">
+                    <span style="color: #2196F3;">Current Gallery:</span>
+                    <span id="currentGalleryName" style="color: #F44336; margin-left: 8px;">CHOOSE</span>
+                </div>
+            </div>
+            <a href="/horrid/horrid.html" class="create-button">Create Character</a>
+        </div>
+
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading amazing characters...</p>
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="gallery" class="gallery-grid" style="display: none;"></div>
+        
+        <!-- Pagination Controls -->
+        <div id="pagination" class="pagination" style="display: none;">
+            <button id="prevBtn" class="pagination-btn">← Previous</button>
+            <span id="pageInfo" class="page-info">Page 1 of 1</span>
+            <button id="nextBtn" class="pagination-btn">Next →</button>
+        </div>
+        
+        <div id="emptyGallery" class="empty-gallery" style="display: none;">
+            <h3>No Characters Yet!</h3>
+            <p>Be the first to create an amazing character!</p>
+            <a href="/horrid" class="create-button">Create Your Character</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-close-header">
+                <button id="prevModalBtn" class="nav-button" title="Previous Monster">←</button>
+                <span class="close-button">X Close</span>
+                <button id="nextModalBtn" class="nav-button" title="Next Monster">→</button>
+            </div>
+            <img id="modalImage" class="modal-image" src="" alt="Character Image">
+            <div class="modal-prompt-label"></div>
+            <div id="modalPrompt" class="modal-prompt"></div>
+            <div class="modal-actions">
+                <button id="recreateBtn" class="modal-button recreate">Recreate This Character</button>
+                <button id="printBtn" class="modal-button secondary">Print Character</button>
+                <button id="downloadBtn" class="modal-button">Download</button>
+                <button id="shareBtn" class="modal-button share">Share Link</button>
+                <button id="deleteBtn" class="modal-button danger" style="display: none;">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ensure we're on the right page and not redirected
+        if (window.location.pathname !== '/gallery.html' && window.location.pathname !== '/horrid/gallery') {
+            console.log('Redirected to gallery from:', window.location.pathname);
+        }
+    </script>
+</body>
+</html>

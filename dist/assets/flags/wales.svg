@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32">
+  <rect width="48" height="16" y="0" fill="#ffffff"/>
+  <rect width="48" height="16" y="16" fill="#006b3f"/>
+  <!-- Simplified red dragon silhouette -->
+  <path d="M10 22 L18 16 L21 19 L20 21 L24 23 L22 25 L17 24 L14 26 Z M22 17 L25 15 L28 17 L26 19 Z" fill="#d00000"/>
+</svg>
+

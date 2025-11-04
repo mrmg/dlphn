@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolphin Thursday Reminder Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .memory-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .memory-input {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        input[type="text"] {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+        input[type="text"]:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #357abd;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            color: #4a90e2;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #error {
+            display: none;
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        #result {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4a90e2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .example-text {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button onclick="window.location.href='/'" style="background-color: #666; padding: 8px 16px; font-size: 14px;">
+                ← Back to Games
+            </button>
+        </div>
+        
+        <h1>🐬 Create your own Dolphin Thursday reminder</h1>
+        <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 30px;">
+            I'm too tired this week, please create your own reminder for Dolphin Thursday using your own prompts. Feel free to share your image with others!
+        </p>
+        
+        <div class="memory-form">
+            <div class="memory-input">
+                <label for="peMemory">🏃‍♂️ PE Activity:</label>
+                <input type="text" id="peMemory" placeholder="What do you remember from PE class?">
+                <div class="example-text">Example: running, playing soccer, jumping rope</div>
+            </div>
+            
+            <div class="memory-input">
+                <label for="swimmingMemory">🏊‍♀️ Swimming Activity:</label>
+                <input type="text" id="swimmingMemory" placeholder="What do you remember from swimming?">
+                <div class="example-text">Example: splashing, floating, diving</div>
+            </div>
+            
+            <div class="memory-input">
+                <label for="homeworkMemory">📚 Study Activity:</label>
+                <input type="text" id="homeworkMemory" placeholder="What do you remember about homework?">
+                <div class="example-text">Example: studying hard, reading books, solving math</div>
+            </div>
+            
+            <button id="generateBtn">🎨 Generate image</button>
+        </div>
+        
+        <div id="loading">
+            <div class="spinner"></div>
+            <p>Creating your magical Dolphin Thursday reminder... This may take a moment! 🎨</p>
+        </div>
+        
+        <div id="error"></div>
+        
+        <div id="result">
+            <div id="imageContainer"></div>
+        </div>
+    </div>
+
+    <script type="module" src="src/ideas.js"></script>
+</body>
+</html> 
