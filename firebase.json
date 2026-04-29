@@ -55,6 +55,14 @@
         "destination": "/is-it-swimming-today/index.html"
       },
       {
+        "source": "/kids-vs-parents",
+        "destination": "/kids-vs-parents/index.html"
+      },
+      {
+        "source": "/kids-vs-parents/**",
+        "destination": "/kids-vs-parents/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
