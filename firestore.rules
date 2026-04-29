@@ -53,6 +53,33 @@ service cloud.firestore {
       allow read: if true;
       allow write: if true; // Allow public writes for score submissions
     }
+
+    // Kids vs Parents quizzes: public can read active quiz/question docs and submit parent entries.
+    match /kvpQuizzes/{quizSlug} {
+      allow read: if true;
+      allow write: if false;
+
+      match /questions/{questionId} {
+        allow read: if true;
+        allow write: if false;
+      }
+
+      match /submissions/{submissionId} {
+        allow read: if true;
+        allow create: if
+          (request.resource.data.playerType == 'parent' || request.resource.data.playerType == 'kids') &&
+          request.resource.data.score is number &&
+          request.resource.data.maxScore is number &&
+          request.resource.data.percentage is number &&
+          request.resource.data.answers is list;
+        allow update, delete: if false;
+      }
+
+      // Keep aggregate docs admin/server-only.
+      match /aggregates/{docId} {
+        allow read, write: if false;
+      }
+    }
     
     // Deny all other reads for security
     match /{document=**} {

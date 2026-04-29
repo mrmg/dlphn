@@ -6,12 +6,19 @@ export default defineConfig({
       name: 'swimming-page-redirect',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          if (req.url === '/is-it-swimming-today') {
+          const requestPath = (req.url || '').split('?')[0];
+          const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(requestPath);
+
+          if (requestPath === '/is-it-swimming-today') {
             req.url = '/is-it-swimming-today/index.html';
             next();
             return;
           }
-          if (req.url === '/kids-vs-parents' || req.url.startsWith('/kids-vs-parents/')) {
+          if (
+            (requestPath === '/kids-vs-parents' || requestPath.startsWith('/kids-vs-parents/')) &&
+            !hasFileExtension &&
+            !requestPath.startsWith('/kids-vs-parents/src/')
+          ) {
             req.url = '/kids-vs-parents/index.html';
             next();
             return;
