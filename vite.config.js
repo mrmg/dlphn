@@ -11,6 +11,11 @@ export default defineConfig({
             next();
             return;
           }
+          if (req.url === '/kids-vs-parents' || req.url.startsWith('/kids-vs-parents/')) {
+            req.url = '/kids-vs-parents/index.html';
+            next();
+            return;
+          }
           next();
         });
       }
@@ -29,7 +34,8 @@ export default defineConfig({
         'horrid-main': 'horrid/horrid.html',
         'horrid-gallery-main': 'horrid/gallery.html',
         'horrid-gallery-redirect': 'horrid/gallery/index.html',
-        'horrid-admin': 'horrid/admin.html'
+        'horrid-admin': 'horrid/admin.html',
+        'kids-vs-parents': 'kids-vs-parents/index.html'
       },
       output: {
         manualChunks: {
