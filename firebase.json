@@ -51,6 +51,10 @@
         "destination": "/horrid/admin.html"
       },
       {
+        "source": "/is-it-swimming-today",
+        "destination": "/is-it-swimming-today/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

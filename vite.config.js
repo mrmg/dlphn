@@ -1,6 +1,21 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  plugins: [
+    {
+      name: 'swimming-page-redirect',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url === '/is-it-swimming-today') {
+            req.url = '/is-it-swimming-today/index.html';
+            next();
+            return;
+          }
+          next();
+        });
+      }
+    }
+  ],
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
