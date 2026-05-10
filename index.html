@@ -324,8 +324,8 @@ document.addEventListener('click', (e) => {
     const cw = wrap.clientWidth;
     const ch = wrap.clientHeight;
     scale = coverScale;
-    tx = (cw - imgW * scale) / 2;
-    ty = (ch - imgH * scale) / 2;
+    tx = imgW * (1 - scale) / 2;
+    ty = imgH * (1 - scale) / 2;
     apply();
   }
 
