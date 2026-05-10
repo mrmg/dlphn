@@ -38,13 +38,12 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 /* ── IMAGE ── */
 .image-area{
   flex:1;position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
   min-height:0;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
-.image-area img{
-  width:100%;height:100%;object-fit:cover;
-  display:block;
-}
+.image-area img{display:none}
 
 /* ── 7-DAY STRIP ── */
 .day-strip{
@@ -175,8 +174,8 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   </div>
 </header>
 
-<div class="image-area">
-  <img src="/thisweek/image_2026-05-11.jpg" alt="This week at Dolphin School" />
+<div class="image-area" id="imageArea">
+  <style>.image-area{background-image:url('/thisweek/image_2026-05-11.jpg')}</style>
 </div>
 
 <div class="day-strip" id="dayStrip">
@@ -277,35 +276,35 @@ document.addEventListener('click', (e) => {
 
 // ── Image pinch-to-zoom + pan ──
 (function initImageZoom() {
-  const img = document.querySelector('.image-area img');
-  const area = document.querySelector('.image-area');
-  if (!img || !area) return;
+  const area = document.getElementById('imageArea');
+  if (!area) return;
 
   let scale = 1;
   let lastDist = 0;
   let startX = 0, startY = 0;
-  let tx = 0, ty = 0;
+  let bx = 50, by = 50; // background-position as percentages
 
   function clamp() {
-    const iw = img.naturalWidth * scale;
-    const ih = img.naturalHeight * scale;
-    const cw = area.clientWidth;
-    const ch = area.clientHeight;
-    const maxX = Math.max(0, (iw - cw) / 2);
-    const maxY = Math.max(0, (ih - ch) / 2);
-    tx = Math.max(-maxX, Math.min(maxX, tx));
-    ty = Math.max(-maxY, Math.min(maxY, ty));
+    // Keep position within bounds when zoomed
+    const maxOffset = (scale - 1) * 50;
+    bx = Math.max(50 - maxOffset, Math.min(50 + maxOffset, bx));
+    by = Math.max(50 - maxOffset, Math.min(50 + maxOffset, by));
   }
 
   function apply() {
-    img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-    img.style.transformOrigin = '0 0';
+    if (scale <= 1) {
+      area.style.backgroundSize = 'cover';
+      area.style.backgroundPosition = 'center';
+    } else {
+      area.style.backgroundSize = `${scale * 100}%`;
+      area.style.backgroundPosition = `${bx}% ${by}%`;
+    }
   }
 
   function reset() {
-    scale = 1; tx = 0; ty = 0;
-    img.style.transform = '';
-    img.style.transformOrigin = '';
+    scale = 1; bx = 50; by = 50;
+    area.style.backgroundSize = 'cover';
+    area.style.backgroundPosition = 'center';
   }
 
   area.addEventListener('touchstart', (e) => {
@@ -314,8 +313,8 @@ document.addEventListener('click', (e) => {
       const t = e.touches;
       lastDist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
     } else if (e.touches.length === 1 && scale > 1) {
-      startX = e.touches[0].clientX - tx;
-      startY = e.touches[0].clientY - ty;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
     }
   }, { passive: false });
 
@@ -333,8 +332,13 @@ document.addEventListener('click', (e) => {
       apply();
     } else if (e.touches.length === 1 && scale > 1) {
       e.preventDefault();
-      tx = e.touches[0].clientX - startX;
-      ty = e.touches[0].clientY - startY;
+      const rect = area.getBoundingClientRect();
+      const dx = (e.touches[0].clientX - startX) / rect.width * 100;
+      const dy = (e.touches[0].clientY - startY) / rect.height * 100;
+      bx += dx;
+      by += dy;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       clamp();
       apply();
     }
@@ -353,14 +357,15 @@ document.addEventListener('click', (e) => {
     if (e.changedTouches.length === 1 && e.touches.length === 0) {
       const now = Date.now();
       if (now - lastTap < 300) {
+        e.preventDefault();
         if (scale > 1) {
           reset();
         } else {
           scale = 2.5;
           const t = e.changedTouches[0];
           const rect = area.getBoundingClientRect();
-          tx = (rect.width / 2 - (t.clientX - rect.left)) * (scale - 1);
-          ty = (rect.height / 2 - (t.clientY - rect.top)) * (scale - 1);
+          bx = (t.clientX - rect.left) / rect.width * 100;
+          by = (t.clientY - rect.top) / rect.height * 100;
           clamp();
           apply();
         }
