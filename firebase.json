@@ -6,13 +6,7 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "redirects": [
-      {
-        "source": "/",
-        "destination": "/card",
-        "type": 302
-      }
-    ],
+    "redirects": [],
     "rewrites": [
       {
         "source": "/ideas",
@@ -24,7 +18,7 @@
       },
       {
         "source": "/games",
-        "destination": "/index.html"
+        "destination": "/games.html"
       },
       {
         "source": "/horrid",
@@ -64,7 +58,7 @@
       },
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/games.html"
       }
     ],
     "headers": [
