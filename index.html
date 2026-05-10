@@ -53,7 +53,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   background:linear-gradient(0deg,#12122e 0%,#1a1a3e 100%);
   border-top:1px solid rgba(255,255,255,0.06);
   padding:0;
-  min-height:130px;
+  min-height:145px;
 }
 .day{
   flex:1;display:flex;flex-direction:column;align-items:center;
@@ -69,15 +69,16 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 .day.today .day-name{color:#ffd700}
 .day .weather{font-size:20px;line-height:1}
 .day .temp{font-size:13px;color:rgba(255,255,255,0.5);line-height:1}
-.day .chips{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:3px;width:100%}
+.day .chips{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:4px;width:100%}
 .day .chip{
-  display:inline-block;padding:3px 8px;border-radius:10px;
-  font-size:10px;font-weight:500;line-height:1.3;white-space:nowrap;
+  display:inline-block;padding:4px 10px;border-radius:12px;
+  font-size:11px;font-weight:600;line-height:1.3;white-space:nowrap;
 }
-.day .chip-kit{background:rgba(100,200,255,0.15);color:#8cd4ff}
-.day .chip-sport{background:rgba(100,255,150,0.15);color:#8cffae}
-.day .chip-event{background:rgba(255,215,0,0.12);color:#ffd700}
-.day .chip-fun{background:rgba(255,150,255,0.12);color:#ff96ff}
+.day .chip-kit{background:rgba(74,222,128,0.15);color:#4ade80}
+.day .chip-school{background:rgba(96,165,250,0.15);color:#60a5fa}
+.day .chip-kids{background:rgba(251,146,60,0.15);color:#fb923c}
+.day .chip-parents{background:rgba(192,132,252,0.15);color:#c084fc}
+.day .chip-birthday{background:rgba(251,113,133,0.15);color:#fb7185}
 .day .chip-default{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
 
 /* ── FLOATING NAV ── */
@@ -135,8 +136,8 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   .day .day-date{font-size:10px}
   .day .weather{font-size:17px}
   .day .temp{font-size:12px}
-  .day .chip{font-size:9px;padding:2px 6px}
-  .day-strip{min-height:110px}
+  .day .chip{font-size:10px;padding:3px 8px}
+  .day-strip{min-height:125px}
   .nav-panel{width:200px}
   .nav-panel.open ~ .nav-toggle{right:200px}
 }
@@ -195,7 +196,7 @@ const WEEK_DATA = {
     { name:'Wed', date:13, weather:'🌦', temp:'12°', activities:['PE Kit']},
     { name:'Thu', date:14, weather:'⛅', temp:'13°', activities:['Mum Cinema']},
     { name:'Fri', date:15, weather:'☁️', temp:'8°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
-    { name:'Sat', date:16, weather:'', temp:'', activities:[]},
+    { name:'Sat', date:16, weather:'', temp:'', activities:["Gus's Birthday Party",'Eurovision Party']},
     { name:'Sun', date:17, weather:'', temp:'', activities:[]}
   ]
 };
@@ -221,10 +222,11 @@ WEEK_DATA.days.forEach((d, i) => {
     ${d.temp ? `<div class="temp">${d.temp}</div>` : ''}
     ${d.activities && d.activities.length ? `<div class="chips">${d.activities.map(a => {
       let cls = 'chip-default';
-      if (/Kit|Cricket/.test(a)) cls = 'chip-kit';
-      else if (/Swim|Dance/.test(a)) cls = 'chip-sport';
-      else if (/Forum/.test(a)) cls = 'chip-event';
-      else if (/Cinema/.test(a)) cls = 'chip-fun';
+      if (/Birthday/i.test(a)) cls = 'chip-birthday';
+      else if (/Mum Cinema|Eurovision/i.test(a)) cls = 'chip-parents';
+      else if (/Dance|Swim|PE Kit/i.test(a)) cls = 'chip-kit';
+      else if (/Dolphin Forum|East Sussex|Trip/i.test(a)) cls = 'chip-school';
+      else if (/All Stars|Cricket|Party/i.test(a)) cls = 'chip-kids';
       return `<span class="chip ${cls}">${a}</span>`;
     }).join('')}</div>` : ''}
   `;
