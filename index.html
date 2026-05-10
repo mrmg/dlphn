@@ -133,26 +133,27 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   header{padding:10px 14px}
   header .school h1{font-size:13px}
   .day-strip{
-    display:grid;grid-template-columns:1fr 1fr;
-    overflow:visible;min-height:auto;scroll-snap-type:none;
-    -webkit-mask-image:none;mask-image:none;
+    display:flex;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;
+    min-height:140px;
+    padding-bottom:8px;
   }
   .day{
-    flex:none;width:auto;
-    padding:10px 10px 8px;
-    scroll-snap-align:none;
+    flex:0 0 95px;
+    padding:10px 4px 8px;
     border-right:1px solid rgba(255,255,255,0.04);
-    border-bottom:1px solid rgba(255,255,255,0.04);
+    scroll-snap-align:start;
   }
-  .day:nth-child(even){border-right:none}
-  .day:last-child{border-bottom:none}
+  .day:last-child{border-right:none}
   .day .day-name{font-size:11px}
   .day .day-date{font-size:10px}
   .day .weather{font-size:16px}
   .day .weather-temp{display:flex;align-items:center;gap:4px}
   .day .temp{font-size:11px}
-  .day .chips{flex-direction:row;flex-wrap:wrap;gap:4px}
-  .day .chip{font-size:10px;padding:3px 8px;white-space:nowrap;word-break:normal}
+  .day .chips{flex-direction:column;gap:5px;width:100%}
+  .day .chip{font-size:10px;padding:3px 8px;white-space:normal;word-break:break-word;text-align:center}
   .nav-panel{width:200px}
   .nav-panel.open ~ .nav-toggle{right:200px}
 }
