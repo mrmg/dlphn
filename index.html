@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Dolphin School — This Week</title>
-<script type="module" src="https://unpkg.com/pinch-zoom-element@2.6.0/dist/pinch-zoom.min.js?module"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -39,12 +38,17 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 /* ── IMAGE ── */
 .image-area{
   flex:1;position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
   min-height:0;
 }
-.image-area img{
-  width:100%;height:100%;object-fit:cover;
-  display:block;
+.image-area .zoom-wrap{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.image-area .zoom-wrap img{
+  display:block;max-width:none;max-height:none;
+  object-fit:none;
+  transform-origin:0 0;
 }
 
 /* ── 7-DAY STRIP ── */
@@ -177,9 +181,9 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 </header>
 
 <div class="image-area">
-  <pinch-zoom style="width:100%;height:100%">
-    <img src="/thisweek/image_2026-05-11.jpg" alt="This week at Dolphin School" style="width:100%;height:100%;object-fit:cover;display:block" />
-  </pinch-zoom>
+  <div class="zoom-wrap" id="zoomWrap">
+    <img id="zoomImg" src="/thisweek/image_2026-05-11.jpg" alt="This week at Dolphin School" />
+  </div>
 </div>
 
 <div class="day-strip" id="dayStrip">
@@ -276,7 +280,134 @@ document.addEventListener('click', (e) => {
     toggle.classList.remove('open');
     toggle.textContent = '◀';
   }
-});</script>
+});
+
+// ── Image pinch-to-zoom + pan ──
+(function() {
+  const img = document.getElementById('zoomImg');
+  const wrap = document.getElementById('zoomWrap');
+  if (!img || !wrap) return;
+
+  let scale, tx, ty, coverScale;
+  let lastDist = 0;
+  let startX, startY;
+  let imgW, imgH;
+
+  function init() {
+    const cw = wrap.clientWidth;
+    const ch = wrap.clientHeight;
+    if (!cw || !ch) { setTimeout(init, 50); return; }
+    imgW = img.naturalWidth || cw;
+    imgH = img.naturalHeight || ch;
+    coverScale = Math.max(cw / imgW, ch / imgH);
+    reset();
+  }
+
+  function apply() {
+    img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  }
+
+  function clamp() {
+    const cw = wrap.clientWidth;
+    const ch = wrap.clientHeight;
+    const sw = imgW * scale;
+    const sh = imgH * scale;
+    const minX = Math.min(0, cw - sw);
+    const maxX = Math.max(0, cw - sw);
+    const minY = Math.min(0, ch - sh);
+    const maxY = Math.max(0, ch - sh);
+    tx = Math.max(minX, Math.min(maxX, tx));
+    ty = Math.max(minY, Math.min(maxY, ty));
+  }
+
+  function reset() {
+    const cw = wrap.clientWidth;
+    const ch = wrap.clientHeight;
+    scale = coverScale;
+    tx = (cw - imgW * scale) / 2;
+    ty = (ch - imgH * scale) / 2;
+    apply();
+  }
+
+  img.onload = init;
+  if (img.complete && img.naturalWidth) init();
+  window.addEventListener('resize', reset);
+
+  // Touch handlers
+  wrap.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const t = e.touches;
+      lastDist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
+    } else if (e.touches.length === 1 && scale > 1.1) {
+      startX = e.touches[0].clientX - tx;
+      startY = e.touches[0].clientY - ty;
+    }
+  }, { passive: false });
+
+  wrap.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const t = e.touches;
+      const dist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
+      if (lastDist) {
+        const cw = wrap.clientWidth;
+        const ch = wrap.clientHeight;
+        const cx = (t[0].clientX + t[1].clientX) / 2 - wrap.getBoundingClientRect().left;
+        const cy = (t[0].clientY + t[1].clientY) / 2 - wrap.getBoundingClientRect().top;
+        // Zoom toward pinch center
+        const newScale = scale * dist / lastDist;
+        const clamped = Math.max(coverScale, Math.min(6, newScale));
+        const ratio = clamped / scale;
+        tx = cx - (cx - tx) * ratio;
+        ty = cy - (cy - ty) * ratio;
+        scale = clamped;
+        // Re-init if zoomed out past cover
+        const cw2 = wrap.clientWidth;
+        const ch2 = wrap.clientHeight;
+        const coverS = Math.max(cw2 / imgW, ch2 / imgH);
+        if (scale < coverS * 0.95) { reset(); }
+        else { clamp(); apply(); }
+      }
+      lastDist = dist;
+    } else if (e.touches.length === 1 && scale > 1.1) {
+      e.preventDefault();
+      tx = e.touches[0].clientX - startX;
+      ty = e.touches[0].clientY - startY;
+      clamp();
+      apply();
+    }
+  }, { passive: false });
+
+  wrap.addEventListener('touchend', () => { lastDist = 0; });
+  wrap.addEventListener('touchcancel', () => { lastDist = 0; });
+
+  // Double-tap
+  let lastTap = 0;
+  wrap.addEventListener('touchend', (e) => {
+    if (e.changedTouches.length === 1 && e.touches.length === 0) {
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        if (scale > coverScale * 1.5) { reset(); }
+        else { zoomTo(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }
+      }
+      lastTap = now;
+    }
+  });
+
+  function zoomTo(clientX, clientY) {
+    const rect = wrap.getBoundingClientRect();
+    const cx = clientX - rect.left;
+    const cy = clientY - rect.top;
+    const newScale = 3;
+    const ratio = newScale / scale;
+    tx = cx - (cx - tx) * ratio;
+    ty = cy - (cy - ty) * ratio;
+    scale = newScale;
+    clamp();
+    apply();
+  }
+})();</script>
 
 </body>
 </html>
