@@ -286,16 +286,23 @@ document.addEventListener('click', (e) => {
 (function() {
   const img = document.getElementById('zoomImg');
   const wrap = document.getElementById('zoomWrap');
+  const dayStrip = document.getElementById('dayStrip');
   if (!img || !wrap) return;
 
   let scale, tx, ty, coverScale;
   let lastDist = 0;
   let startX, startY;
   let imgW, imgH;
+  let barHeight = 0;
+
+  function getVisibleH() {
+    // On mobile the day strip is position:fixed;bottom:0 and overlaps the image
+    return wrap.clientHeight - (window.innerWidth <= 640 && dayStrip ? dayStrip.offsetHeight : 0);
+  }
 
   function init() {
     const cw = wrap.clientWidth;
-    const ch = wrap.clientHeight;
+    const ch = getVisibleH();
     if (!cw || !ch) { setTimeout(init, 50); return; }
     imgW = img.naturalWidth || cw;
     imgH = img.naturalHeight || ch;
@@ -309,12 +316,12 @@ document.addEventListener('click', (e) => {
 
   function clamp() {
     const cw = wrap.clientWidth;
-    const ch = wrap.clientHeight;
+    const ch = getVisibleH();
     const sw = imgW * scale;
     const sh = imgH * scale;
     // Flex centers the img's natural-size CSS box at (cw-imgW)/2
     const flexX = (cw - imgW) / 2;
-    const flexY = (ch - imgH) / 2;
+    const flexY = (wrap.clientHeight - imgH) / 2;
     // Constrain visual edges so image doesn't scroll fully off
     const visMinX = Math.min(0, cw - sw);
     const visMaxX = Math.max(0, cw - sw);
@@ -326,7 +333,7 @@ document.addEventListener('click', (e) => {
 
   function reset() {
     const cw = wrap.clientWidth;
-    const ch = wrap.clientHeight;
+    const ch = getVisibleH();
     scale = coverScale;
     tx = imgW * (1 - scale) / 2;
     ty = imgH * (1 - scale) / 2;
@@ -335,7 +342,10 @@ document.addEventListener('click', (e) => {
 
   img.onload = init;
   if (img.complete && img.naturalWidth) init();
-  window.addEventListener('resize', reset);
+  window.addEventListener('resize', () => {
+    if (dayStrip) barHeight = dayStrip.offsetHeight;
+    reset();
+  });
 
   // Touch handlers
   wrap.addEventListener('touchstart', (e) => {
@@ -345,7 +355,7 @@ document.addEventListener('click', (e) => {
       lastDist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
     } else if (e.touches.length === 1) {
       const cw = wrap.clientWidth;
-      const ch = wrap.clientHeight;
+      const ch = getVisibleH();
       const sw = imgW * scale;
       const sh = imgH * scale;
       if (sw > cw || sh > ch) {
@@ -374,7 +384,7 @@ document.addEventListener('click', (e) => {
         scale = clamped;
         // Re-init if zoomed out past cover
         const cw2 = wrap.clientWidth;
-        const ch2 = wrap.clientHeight;
+        const ch2 = getVisibleH();
         const coverS = Math.max(cw2 / imgW, ch2 / imgH);
         if (scale < coverS * 0.95) { reset(); }
         else { clamp(); apply(); }
