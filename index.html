@@ -312,12 +312,16 @@ document.addEventListener('click', (e) => {
     const ch = wrap.clientHeight;
     const sw = imgW * scale;
     const sh = imgH * scale;
-    const minX = Math.min(0, cw - sw);
-    const maxX = Math.max(0, cw - sw);
-    const minY = Math.min(0, ch - sh);
-    const maxY = Math.max(0, ch - sh);
-    tx = Math.max(minX, Math.min(maxX, tx));
-    ty = Math.max(minY, Math.min(maxY, ty));
+    // Flex centers the img's natural-size CSS box at (cw-imgW)/2
+    const flexX = (cw - imgW) / 2;
+    const flexY = (ch - imgH) / 2;
+    // Constrain visual edges so image doesn't scroll fully off
+    const visMinX = Math.min(0, cw - sw);
+    const visMaxX = Math.max(0, cw - sw);
+    const visMinY = Math.min(0, ch - sh);
+    const visMaxY = Math.max(0, ch - sh);
+    tx = Math.max(visMinX - flexX, Math.min(visMaxX - flexX, tx));
+    ty = Math.max(visMinY - flexY, Math.min(visMaxY - flexY, ty));
   }
 
   function reset() {
@@ -339,9 +343,15 @@ document.addEventListener('click', (e) => {
       e.preventDefault();
       const t = e.touches;
       lastDist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
-    } else if (e.touches.length === 1 && scale > 1.1) {
-      startX = e.touches[0].clientX - tx;
-      startY = e.touches[0].clientY - ty;
+    } else if (e.touches.length === 1) {
+      const cw = wrap.clientWidth;
+      const ch = wrap.clientHeight;
+      const sw = imgW * scale;
+      const sh = imgH * scale;
+      if (sw > cw || sh > ch) {
+        startX = e.touches[0].clientX - tx;
+        startY = e.touches[0].clientY - ty;
+      }
     }
   }, { passive: false });
 
@@ -370,7 +380,7 @@ document.addEventListener('click', (e) => {
         else { clamp(); apply(); }
       }
       lastDist = dist;
-    } else if (e.touches.length === 1 && scale > 1.1) {
+    } else if (e.touches.length === 1 && startX !== undefined) {
       e.preventDefault();
       tx = e.touches[0].clientX - startX;
       ty = e.touches[0].clientY - startY;
