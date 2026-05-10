@@ -131,13 +131,14 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 @media(max-width:640px){
   header{padding:10px 14px}
   header .school h1{font-size:13px}
-  .day{padding:10px 4px 8px}
+  .day-strip{overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;min-height:140px}
+  .day{flex:none;width:95px;padding:10px 4px 8px;scroll-snap-align:start}
+  .day:last-child{border-right:1px solid rgba(255,255,255,0.04)}
   .day .day-name{font-size:10px}
   .day .day-date{font-size:10px}
   .day .weather{font-size:17px}
   .day .temp{font-size:12px}
-  .day .chip{font-size:10px;padding:3px 8px}
-  .day-strip{min-height:125px}
+  .day .chip{font-size:10px;padding:3px 8px;white-space:normal;word-break:break-word;text-align:center}
   .nav-panel{width:200px}
   .nav-panel.open ~ .nav-toggle{right:200px}
 }
