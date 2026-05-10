@@ -53,22 +53,32 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   background:linear-gradient(0deg,#12122e 0%,#1a1a3e 100%);
   border-top:1px solid rgba(255,255,255,0.06);
   padding:0;
+  min-height:130px;
 }
 .day{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:10px 4px;gap:3px;
+  padding:14px 6px 10px;gap:4px;
   border-right:1px solid rgba(255,255,255,0.04);
   position:relative;
 }
 .day:last-child{border-right:none}
 .day.today{background:rgba(255,215,0,0.06)}
-.day.weekend{opacity:0.35}
-.day .day-name{font-size:10px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.5);letter-spacing:0.5px}
-.day .day-date{font-size:9px;color:rgba(255,255,255,0.3)}
+.day.weekend{opacity:0.3}
+.day .day-name{font-size:12px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.5);letter-spacing:0.5px}
+.day .day-date{font-size:11px;color:rgba(255,255,255,0.3)}
 .day.today .day-name{color:#ffd700}
-.day .weather{font-size:16px;line-height:1}
-.day .temp{font-size:11px;color:rgba(255,255,255,0.5);line-height:1}
-.day .activity{font-size:9px;color:rgba(255,255,255,0.6);text-align:center;line-height:1.2;margin-top:2px}
+.day .weather{font-size:20px;line-height:1}
+.day .temp{font-size:13px;color:rgba(255,255,255,0.5);line-height:1}
+.day .chips{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:3px;width:100%}
+.day .chip{
+  display:inline-block;padding:3px 8px;border-radius:10px;
+  font-size:10px;font-weight:500;line-height:1.3;white-space:nowrap;
+}
+.day .chip-kit{background:rgba(100,200,255,0.15);color:#8cd4ff}
+.day .chip-sport{background:rgba(100,255,150,0.15);color:#8cffae}
+.day .chip-event{background:rgba(255,215,0,0.12);color:#ffd700}
+.day .chip-fun{background:rgba(255,150,255,0.12);color:#ff96ff}
+.day .chip-default{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
 
 /* ── FLOATING NAV ── */
 .nav-toggle{
@@ -120,10 +130,13 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 @media(max-width:640px){
   header{padding:10px 14px}
   header .school h1{font-size:13px}
-  .day{padding:8px 2px}
-  .day .day-name{font-size:9px}
-  .day .weather{font-size:14px}
-  .day .activity{font-size:8px}
+  .day{padding:10px 4px 8px}
+  .day .day-name{font-size:10px}
+  .day .day-date{font-size:10px}
+  .day .weather{font-size:17px}
+  .day .temp{font-size:12px}
+  .day .chip{font-size:9px;padding:2px 6px}
+  .day-strip{min-height:110px}
   .nav-panel{width:200px}
   .nav-panel.open ~ .nav-toggle{right:200px}
 }
@@ -177,13 +190,13 @@ const WEEK_DATA = {
   startDay: 11,
   weekLabel: 'B',
   days: [
-    { name:'Mon', date:11, weather:'🌦', temp:'10°', activity:'Dance + PE'},
-    { name:'Tue', date:12, weather:'⛅', temp:'15°', activity:'Swimming'},
-    { name:'Wed', date:13, weather:'🌦', temp:'12°', activity:'PE Kit'},
-    { name:'Thu', date:14, weather:'⛅', temp:'13°', activity:'Mum Cinema'},
-    { name:'Fri', date:15, weather:'☁️', temp:'8°', activity:'PE Kit + Forest School'},
-    { name:'Sat', date:16, weather:'', temp:'', activity:''},
-    { name:'Sun', date:17, weather:'', temp:'', activity:''}
+    { name:'Mon', date:11, weather:'🌦', temp:'10°', activities:['Dance']},
+    { name:'Tue', date:12, weather:'⛅', temp:'15°', activities:['Swimming']},
+    { name:'Wed', date:13, weather:'🌦', temp:'12°', activities:['PE Kit']},
+    { name:'Thu', date:14, weather:'⛅', temp:'13°', activities:['Mum Cinema']},
+    { name:'Fri', date:15, weather:'☁️', temp:'8°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
+    { name:'Sat', date:16, weather:'', temp:'', activities:[]},
+    { name:'Sun', date:17, weather:'', temp:'', activities:[]}
   ]
 };
 
@@ -206,7 +219,14 @@ WEEK_DATA.days.forEach((d, i) => {
     <div class="day-date">${d.date} May</div>
     ${d.weather ? `<div class="weather">${d.weather}</div>` : ''}
     ${d.temp ? `<div class="temp">${d.temp}</div>` : ''}
-    ${d.activity ? `<div class="activity">${d.activity}</div>` : ''}
+    ${d.activities && d.activities.length ? `<div class="chips">${d.activities.map(a => {
+      let cls = 'chip-default';
+      if (/Kit|Cricket/.test(a)) cls = 'chip-kit';
+      else if (/Swim|Dance/.test(a)) cls = 'chip-sport';
+      else if (/Forum/.test(a)) cls = 'chip-event';
+      else if (/Cinema/.test(a)) cls = 'chip-fun';
+      return `<span class="chip ${cls}">${a}</span>`;
+    }).join('')}</div>` : ''}
   `;
   strip.appendChild(el);
 });
