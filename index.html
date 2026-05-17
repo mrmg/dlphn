@@ -39,11 +39,9 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 .image-area{
   flex:1;position:relative;overflow:hidden;
   min-height:0;
-  --strip-height:0px;
 }
 .image-area .zoom-wrap{
-  position:absolute;top:0;left:0;width:100%;
-  bottom:var(--strip-height);
+  position:absolute;top:0;left:0;width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
@@ -293,10 +291,6 @@ WEEK_DATA.days.forEach((d, i) => {
   strip.appendChild(el);
 });
 
-// Reserve space at bottom of image area equal to day-strip height
-const stripH = strip.offsetHeight;
-document.querySelector('.image-area').style.setProperty('--strip-height', stripH + 'px');
-
 // ── Week badge ──
 document.getElementById('weekBadge').textContent = 'Week ' + WEEK_DATA.weekLabel;
 
@@ -374,13 +368,7 @@ document.addEventListener('click', (e) => {
 
   img.onload = init;
   if (img.complete && img.naturalWidth) init();
-  window.addEventListener('resize', () => {
-    const s = document.getElementById('dayStrip');
-    if (s) {
-      document.querySelector('.image-area').style.setProperty('--strip-height', s.offsetHeight + 'px');
-    }
-    reset();
-  });
+  window.addEventListener('resize', reset);
 
   // Touch handlers
   wrap.addEventListener('touchstart', (e) => {
