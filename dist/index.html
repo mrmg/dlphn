@@ -137,7 +137,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 /* ── YEAR SWITCH ── */
 .year-switch{
   position:fixed;top:12px;right:100px;z-index:20;
-  display:flex;gap:6px;
+  display:none;gap:6px;
 }
 .year-switch a{
   display:inline-block;padding:4px 12px;border-radius:8px;
@@ -335,7 +335,7 @@ document.addEventListener('click', (e) => {
 
   function init() {
     const cw = wrap.clientWidth;
-    const ch = getVisibleH();
+    const ch = wrap.clientHeight; // full container height for cover scale
     if (!cw || !ch) { setTimeout(init, 50); return; }
     imgW = img.naturalWidth || cw;
     imgH = img.naturalHeight || ch;
