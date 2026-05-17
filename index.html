@@ -251,9 +251,9 @@ const WEEK_DATA = {
   weekLabel: 'A',
   days: [
     { name:'Mon', date:18, weather:'☁️', temp:'13°', activities:['Dance']},
-    { name:'Tue', date:19, weather:'🌧', temp:'16°', activities:['Swimming']},
+    { name:'Tue', date:19, weather:'🌧', temp:'16°', activities:['3A Forest School']},
     { name:'Wed', date:20, weather:'🌦', temp:'19°', activities:['PE Kit']},
-    { name:'Thu', date:21, weather:'🌦', temp:'21°', activities:['Mum Cinema']},
+    { name:'Thu', date:21, weather:'🌦', temp:'21°', activities:['Swimming','3B Forest School','Mum Cinema']},
     { name:'Fri', date:22, weather:'☁️', temp:'23°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
     { name:'Sat', date:23, weather:'☁️', temp:'20°', activities:[]},
     { name:'Sun', date:24, weather:'☀️', temp:'23°', activities:[]}
@@ -283,7 +283,7 @@ WEEK_DATA.days.forEach((d, i) => {
       if (/Birthday/i.test(a)) cls = 'chip-birthday';
       else if (/Mum Cinema|Eurovision/i.test(a)) cls = 'chip-parents';
       else if (/Dance|Swim|PE Kit/i.test(a)) cls = 'chip-kit';
-      else if (/Dolphin Forum|East Sussex|Trip/i.test(a)) cls = 'chip-school';
+      else if (/Dolphin Forum|East Sussex|Trip|Forest School/i.test(a)) cls = 'chip-school';
       else if (/All Stars|Cricket|Party/i.test(a)) cls = 'chip-kids';
       return `<span class="chip ${cls}">${a}</span>`;
     }).join('')}</div>` : ''}
