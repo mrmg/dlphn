@@ -21,6 +21,10 @@
         "destination": "/games.html"
       },
       {
+        "source": "/gallery",
+        "destination": "/gallery.html"
+      },
+      {
         "source": "/horrid",
         "destination": "/horrid/horrid.html"
       },
