@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Dolphin School — This Week</title>
+<title>Dolphin School — Reception Weekly</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 @font-face{font-family:'Inter';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -20,20 +20,20 @@ header{
   position:relative;z-index:10;
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 24px;
-  background:linear-gradient(180deg,#1a1a3e 0%,#0f0f2a 100%);
+  background:linear-gradient(180deg,#1a2e1a 0%,#0f1a0f 100%);
   border-bottom:1px solid rgba(255,255,255,0.08);
   flex-shrink:0;
 }
 header .school{display:flex;flex-direction:column;gap:1px}
-header .school h1{font-size:16px;font-weight:600;letter-spacing:0.3px;color:#e8e0ff}
+header .school h1{font-size:16px;font-weight:600;letter-spacing:0.3px;color:#c6f68d}
 header .school span{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.2px}
 header .badge{
   display:flex;flex-direction:column;align-items:center;gap:1px;
-  background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.25);
+  background:rgba(80,200,120,0.12);border:1px solid rgba(80,200,120,0.25);
   border-radius:10px;padding:6px 14px;
 }
-header .badge .week{font-size:18px;font-weight:600;color:#ffd700;line-height:1}
-header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3px}
+header .badge .week{font-size:18px;font-weight:600;color:#50c878;line-height:1}
+header .badge .dates{font-size:10px;color:rgba(80,200,120,0.6);letter-spacing:0.3px}
 
 /* ── IMAGE ── */
 .image-area{
@@ -55,7 +55,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 .day-strip{
   flex-shrink:0;
   display:flex;
-  background:linear-gradient(0deg,#12122e 0%,#1a1a3e 100%);
+  background:linear-gradient(0deg,#121e12 0%,#1a2e1a 100%);
   border-top:1px solid rgba(255,255,255,0.06);
   padding:0;
   min-height:145px;
@@ -67,11 +67,11 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   position:relative;
 }
 .day:last-child{border-right:none}
-.day.today{background:rgba(255,215,0,0.06)}
+.day.today{background:rgba(80,200,120,0.06)}
 .day.weekend .day-name,.day.weekend .day-date,.day.weekend .weather,.day.weekend .temp{opacity:0.35}
 .day .day-name{font-size:12px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.5);letter-spacing:0.5px}
 .day .day-date{font-size:11px;color:rgba(255,255,255,0.3)}
-.day.today .day-name{color:#ffd700}
+.day.today .day-name{color:#50c878}
 .day .weather-temp{display:flex;flex-direction:column;align-items:center;line-height:1}
 .day .weather{font-size:20px;line-height:1}
 .day .temp{font-size:13px;color:rgba(255,255,255,0.5);line-height:1}
@@ -80,11 +80,11 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   display:inline-block;padding:4px 10px;border-radius:12px;
   font-size:11px;font-weight:600;line-height:1.3;white-space:nowrap;
 }
-.day .chip-kit{background:rgba(74,222,128,0.15);color:#4ade80}
-.day .chip-school{background:rgba(96,165,250,0.15);color:#60a5fa}
-.day .chip-kids{background:rgba(251,146,60,0.15);color:#fb923c}
-.day .chip-parents{background:rgba(192,132,252,0.15);color:#c084fc}
-.day .chip-birthday{background:rgba(251,113,133,0.15);color:#fb7185}
+.day .chip-forest{background:rgba(74,222,128,0.15);color:#4ade80}
+.day .chip-pe{background:rgba(96,165,250,0.15);color:#60a5fa}
+.day .chip-music{background:rgba(192,132,252,0.15);color:#c084fc}
+.day .chip-french{background:rgba(251,146,60,0.15);color:#fb923c}
+.day .chip-event{background:rgba(255,215,0,0.15);color:#ffd700}
 .day .chip-default{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
 
 /* ── FLOATING NAV ── */
@@ -93,18 +93,18 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   transform:translateY(-50%);
   width:28px;height:52px;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(26,26,62,0.9);border:1px solid rgba(255,255,255,0.1);
+  background:rgba(26,42,26,0.9);border:1px solid rgba(255,255,255,0.1);
   border-right:none;border-radius:8px 0 0 8px;
   cursor:pointer;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);
   color:rgba(255,255,255,0.5);font-size:14px;
 }
-.nav-toggle:hover{color:#ffd700;background:rgba(26,26,62,1)}
+.nav-toggle:hover{color:#50c878;background:rgba(26,42,26,1)}
 .nav-toggle.open{right:220px}
 
 .nav-panel{
   position:fixed;top:0;right:-220px;z-index:999;
   width:220px;height:100vh;
-  background:#0f0f2a;border-left:1px solid rgba(255,255,255,0.08);
+  background:#0f1a0f;border-left:1px solid rgba(255,255,255,0.08);
   display:flex;flex-direction:column;
   transition:right 0.3s cubic-bezier(0.4,0,0.2,1);
   overflow-y:auto;
@@ -115,7 +115,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   padding:20px 16px 12px;
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
-.nav-header .brand{font-size:13px;font-weight:600;color:#e8e0ff;letter-spacing:0.3px}
+.nav-header .brand{font-size:13px;font-weight:600;color:#c6f68d;letter-spacing:0.3px}
 .nav-header .tagline{font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px}
 
 .nav-links{list-style:none;padding:8px 0;margin:0}
@@ -129,7 +129,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 }
 .nav-links a:hover{
   background:rgba(255,255,255,0.04);color:#fff;
-  border-left-color:#ffd700;
+  border-left-color:#50c878;
 }
 .nav-links .link-icon{font-size:16px;width:20px;text-align:center}
 .nav-links .link-arrow{color:rgba(255,255,255,0.2);margin-left:auto;font-size:11px}
@@ -150,10 +150,10 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 }
 .year-switch a.y3:hover{background:rgba(255,215,0,0.2)}
 .year-switch a.rec{
-  background:rgba(80,200,120,0.12);color:#50c878;
-  border:1px solid rgba(80,200,120,0.25);
+  background:rgba(80,200,120,0.18);color:#50c878;
+  border:1px solid rgba(80,200,120,0.35);
 }
-.year-switch a.rec:hover{background:rgba(80,200,120,0.2)}
+.year-switch a.rec:hover{background:rgba(80,200,120,0.25)}
 .year-switch a.active{opacity:1;pointer-events:none}
 .year-switch a:not(.active){opacity:0.5}
 .year-switch a:not(.active):hover{opacity:0.8}
@@ -171,7 +171,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
     scroll-snap-type:x mandatory;
     padding:8px 8px 16px 8px;
     min-height:auto;
-    background:linear-gradient(0deg,#12122e 0%,#1a1a3e 100%);
+    background:linear-gradient(0deg,#121e12 0%,#1a2e1a 100%);
     border-top:1px solid rgba(255,255,255,0.06);
   }
   .day{
@@ -197,24 +197,24 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 
 <!-- Year Switch -->
 <div class="year-switch">
-  <a href="/" class="y3 active">Year 3</a>
-  <a href="/reception" class="rec">Reception</a>
+  <a href="/" class="y3">Year 3</a>
+  <a href="/reception" class="rec active">Reception</a>
 </div>
 
 <header>
   <div class="school">
-    <h1>Dolphin School</h1>
+    <h1>Dolphin School — Reception</h1>
     <span>Wokingham, Berkshire</span>
   </div>
   <div class="badge">
     <span class="week" id="weekBadge">Week A</span>
-    <span class="dates" id="dateRange">18–24 May 2026</span>
+    <span class="dates" id="dateRange">11–17 May 2026</span>
   </div>
 </header>
 
 <div class="image-area">
   <div class="zoom-wrap" id="zoomWrap">
-    <img id="zoomImg" src="/thisweek/image_2026-05-18.jpg" alt="This week at Dolphin School" />
+    <img id="zoomImg" src="/reception/weekly_2026-05-11.jpg" alt="This week at Reception" onerror="this.style.display='none'" />
   </div>
 </div>
 
@@ -242,78 +242,154 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 <div class="nav-toggle" id="navToggle">◀</div>
 
 <script>
-// ── Week data ──
-// Edit this block each week via cron:
-const WEEK_DATA = {
-  year: 2026,
-  startMonth: 5,  // 1-indexed
-  startDay: 18,
-  weekLabel: 'A',
-  days: [
-    { name:'Mon', date:18, weather:'☁️', temp:'13°', activities:['Dance']},
-    { name:'Tue', date:19, weather:'🌧', temp:'16°', activities:['Swimming']},
-    { name:'Wed', date:20, weather:'🌦', temp:'19°', activities:['PE Kit']},
-    { name:'Thu', date:21, weather:'🌦', temp:'21°', activities:['Mum Cinema']},
-    { name:'Fri', date:22, weather:'☁️', temp:'23°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
-    { name:'Sat', date:23, weather:'☁️', temp:'20°', activities:[]},
-    { name:'Sun', date:24, weather:'☀️', temp:'23°', activities:[]}
-  ]
+// ── Reception Timetable by Week ──
+// Ref: Mon 9 Feb 2026 = Week A
+// Nursery timetables from vault timetables
+const RECEPTION_TIMETABLE = {
+  A: {
+    mon: [{ label:'🌲 Forest School', cls:'chip-forest' }],
+    tue: [{ label:'🎵 Music', cls:'chip-music' }],
+    wed: [{ label:'🌲 Forest School', cls:'chip-forest' }],
+    thu: [{ label:'🏃 Physical', cls:'chip-pe' }, { label:'🇫🇷 French', cls:'chip-french' }],
+    fri: [{ label:'🌲 Forest School', cls:'chip-forest' }, { label:'🇫🇷 French', cls:'chip-french' }]
+  },
+  B: {
+    mon: [{ label:'🏃 Physical', cls:'chip-pe' }],
+    tue: [{ label:'🎵 Music', cls:'chip-music' }],
+    wed: [{ label:'🌲 Forest School', cls:'chip-forest' }],
+    thu: [{ label:'🏃 Physical', cls:'chip-pe' }],
+    fri: [{ label:'🌲 Forest School', cls:'chip-forest' }, { label:'🇫🇷 French', cls:'chip-french' }]
+  }
 };
 
-// ── Build strip ──
-const strip = document.getElementById('dayStrip');
-const today = new Date();
-const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-const weekStart = new Date(WEEK_DATA.year, WEEK_DATA.startMonth-1, WEEK_DATA.startDay);
+// ── Week calculation ──
+function getSchoolWeek() {
+  const weekAStart = new Date(2026, 1, 9);
+  const today = new Date();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+  const diffWeeks = Math.floor((monday - weekAStart) / 7 / 86400000);
+  return diffWeeks % 2 === 0 ? 'A' : 'B';
+}
 
-WEEK_DATA.days.forEach((d, i) => {
-  const dayDate = new Date(WEEK_DATA.year, WEEK_DATA.startMonth-1, d.date);
-  const isToday = `${WEEK_DATA.year}-${String(WEEK_DATA.startMonth).padStart(2,'0')}-${String(d.date).padStart(2,'0')}` === todayStr;
-  const isWeekend = i >= 5;
+// ── Build this week ──
+function buildDays() {
+  const today = new Date();
+  const todayDow = today.getDay();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (todayDow === 0 ? 6 : todayDow - 1));
 
-  const el = document.createElement('div');
-  el.className = 'day' + (isToday ? ' today' : '') + (isWeekend ? ' weekend' : '');
+  const weekLabel = getSchoolWeek();
+  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  el.innerHTML = `
-    <div class="day-name">${d.name}</div>
-    <div class="day-date">${d.date} May</div>
-    ${d.weather || d.temp ? `<div class="weather-temp">${d.weather ? `<span class="weather">${d.weather}</span>` : ''}${d.temp ? `<span class="temp">${d.temp}</span>` : ''}</div>` : ''}
-    ${d.activities && d.activities.length ? `<div class="chips">${d.activities.map(a => {
-      let cls = 'chip-default';
-      if (/Birthday/i.test(a)) cls = 'chip-birthday';
-      else if (/Mum Cinema|Eurovision/i.test(a)) cls = 'chip-parents';
-      else if (/Dance|Swim|PE Kit/i.test(a)) cls = 'chip-kit';
-      else if (/Dolphin Forum|East Sussex|Trip/i.test(a)) cls = 'chip-school';
-      else if (/All Stars|Cricket|Party/i.test(a)) cls = 'chip-kids';
-      return `<span class="chip ${cls}">${a}</span>`;
-    }).join('')}</div>` : ''}
-  `;
-  strip.appendChild(el);
-});
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dayKey = dayNames[i].toLowerCase().substring(0, 3);
+    const activities = i < 5 && RECEPTION_TIMETABLE[weekLabel] && RECEPTION_TIMETABLE[weekLabel][dayKey]
+      ? RECEPTION_TIMETABLE[weekLabel][dayKey]
+      : [];
+    days.push({
+      name: dayNames[i],
+      date: d.getDate(),
+      month: monthNames[d.getMonth()],
+      fullDate: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,
+      isWeekend: i >= 5,
+      activities: activities
+    });
+  }
 
-// ── Week badge ──
-document.getElementById('weekBadge').textContent = 'Week ' + WEEK_DATA.weekLabel;
+  return { days, weekLabel, monday };
+}
+
+// ── Weather helpers ──
+function weatherEmoji(condition) {
+  const c = condition.toLowerCase();
+  if (c.includes('clear') || c.includes('sunny')) return '☀';
+  if (c.includes('few') || c.includes('scattered') || c.includes('broken')) return '⛅';
+  if (c.includes('overcast')) return '☁';
+  if (c.includes('drizzle') || c.includes('light rain')) return '🌦';
+  if (c.includes('rain') || c.includes('shower')) return '🌧';
+  if (c.includes('thunder')) return '⛈';
+  if (c.includes('snow')) return '🌨';
+  if (c.includes('mist') || c.includes('fog')) return '🌫';
+  return '☁';
+}
+
+// ── Render ──
+function render(days, weekLabel) {
+  const strip = document.getElementById('dayStrip');
+  strip.innerHTML = '';
+  const todayStr = new Date().toISOString().substring(0, 10);
+  const monday = days[0];
+  const sunday = days[6];
+
+  document.getElementById('weekBadge').textContent = 'Week ' + weekLabel;
+  document.getElementById('dateRange').textContent =
+    `${monday.date} ${monday.month} – ${sunday.date} ${sunday.month} ${sunday.fullDate.substring(0,4)}`;
+
+  days.forEach((d, i) => {
+    const isToday = d.fullDate === todayStr;
+    const el = document.createElement('div');
+    el.className = 'day' + (isToday ? ' today' : '') + (d.isWeekend ? ' weekend' : '');
+
+    el.innerHTML = `
+      <div class="day-name">${d.name}</div>
+      <div class="day-date">${d.date} ${d.month}</div>
+      ${d.weather || d.temp ? `<div class="weather-temp">${d.weather ? `<span class="weather">${d.weather}</span>` : ''}${d.temp ? `<span class="temp">${d.temp}</span>` : ''}</div>` : ''}
+      ${d.activities && d.activities.length ? `<div class="chips">${d.activities.map(a => `<span class="chip ${a.cls}">${a.label}</span>`).join('')}</div>` : ''}
+    `;
+    strip.appendChild(el);
+  });
+}
+
+// ── Init ──
+const { days, weekLabel, monday } = buildDays();
+render(days, weekLabel);
+
+// ── Fetch weather ──
+fetch('/data.json?ts=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    if (!data.weather) return;
+    const byDate = {};
+    data.weather.forEach(w => {
+      if (!byDate[w.date]) byDate[w.date] = [];
+      byDate[w.date].push(w);
+    });
+    days.forEach(d => {
+      const entries = byDate[d.fullDate];
+      if (entries && entries.length) {
+        const high = Math.max(...entries.map(e => e.temp));
+        const midIdx = Math.floor(entries.length / 2);
+        d.weather = weatherEmoji(entries[midIdx].condition || '');
+        d.temp = high + '°';
+      }
+    });
+    render(days, weekLabel);
+  })
+  .catch(() => {});
 
 // ── Nav toggle ──
-const toggle = document.getElementById('navToggle');
-const panel = document.getElementById('navPanel');
-
-toggle.addEventListener('click', () => {
-  const isOpen = panel.classList.toggle('open');
-  toggle.classList.toggle('open');
-  toggle.textContent = isOpen ? '▶' : '◀';
-});
-
-// Close nav when clicking outside
-document.addEventListener('click', (e) => {
-  if (panel.classList.contains('open') &&
-      !panel.contains(e.target) &&
-      !toggle.contains(e.target)) {
-    panel.classList.remove('open');
-    toggle.classList.remove('open');
-    toggle.textContent = '◀';
-  }
-});
+(function() {
+  const toggle = document.getElementById('navToggle');
+  const panel = document.getElementById('navPanel');
+  if (!toggle || !panel) return;
+  toggle.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    toggle.classList.toggle('open');
+    toggle.textContent = isOpen ? '▶' : '◀';
+  });
+  document.addEventListener('click', (e) => {
+    if (panel.classList.contains('open') && !panel.contains(e.target) && !toggle.contains(e.target)) {
+      panel.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.textContent = '◀';
+    }
+  });
+})();
 
 // ── Image pinch-to-zoom + pan ──
 (function() {
@@ -326,10 +402,8 @@ document.addEventListener('click', (e) => {
   let lastDist = 0;
   let startX, startY;
   let imgW, imgH;
-  let barHeight = 0;
 
   function getVisibleH() {
-    // On mobile the day strip is position:fixed;bottom:0 and overlaps the image
     return wrap.clientHeight - (window.innerWidth <= 640 && dayStrip ? dayStrip.offsetHeight : 0);
   }
 
@@ -352,10 +426,8 @@ document.addEventListener('click', (e) => {
     const ch = getVisibleH();
     const sw = imgW * scale;
     const sh = imgH * scale;
-    // Flex centers the img's natural-size CSS box at (cw-imgW)/2
     const flexX = (cw - imgW) / 2;
     const flexY = (wrap.clientHeight - imgH) / 2;
-    // Constrain visual edges so image doesn't scroll fully off
     const visMinX = Math.min(0, cw - sw);
     const visMaxX = Math.max(0, cw - sw);
     const visMinY = Math.min(0, ch - sh);
@@ -375,12 +447,8 @@ document.addEventListener('click', (e) => {
 
   img.onload = init;
   if (img.complete && img.naturalWidth) init();
-  window.addEventListener('resize', () => {
-    if (dayStrip) barHeight = dayStrip.offsetHeight;
-    reset();
-  });
+  window.addEventListener('resize', reset);
 
-  // Touch handlers
   wrap.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       e.preventDefault();
@@ -408,14 +476,12 @@ document.addEventListener('click', (e) => {
         const ch = wrap.clientHeight;
         const cx = (t[0].clientX + t[1].clientX) / 2 - wrap.getBoundingClientRect().left;
         const cy = (t[0].clientY + t[1].clientY) / 2 - wrap.getBoundingClientRect().top;
-        // Zoom toward pinch center
         const newScale = scale * dist / lastDist;
         const clamped = Math.max(coverScale, Math.min(6, newScale));
         const ratio = clamped / scale;
         tx = cx - (cx - tx) * ratio;
         ty = cy - (cy - ty) * ratio;
         scale = clamped;
-        // Re-init if zoomed out past cover
         const cw2 = wrap.clientWidth;
         const ch2 = getVisibleH();
         const coverS = Math.max(cw2 / imgW, ch2 / imgH);
@@ -435,7 +501,6 @@ document.addEventListener('click', (e) => {
   wrap.addEventListener('touchend', () => { lastDist = 0; });
   wrap.addEventListener('touchcancel', () => { lastDist = 0; });
 
-  // Double-tap
   let lastTap = 0;
   wrap.addEventListener('touchend', (e) => {
     if (e.changedTouches.length === 1 && e.touches.length === 0) {
@@ -460,7 +525,8 @@ document.addEventListener('click', (e) => {
     clamp();
     apply();
   }
-})();</script>
+})();
+</script>
 
 </body>
 </html>

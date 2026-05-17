@@ -134,7 +134,33 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 .nav-links .link-icon{font-size:16px;width:20px;text-align:center}
 .nav-links .link-arrow{color:rgba(255,255,255,0.2);margin-left:auto;font-size:11px}
 
+/* ── YEAR SWITCH ── */
+.year-switch{
+  position:fixed;top:12px;right:100px;z-index:20;
+  display:flex;gap:6px;
+}
+.year-switch a{
+  display:inline-block;padding:4px 12px;border-radius:8px;
+  font-size:11px;font-weight:600;text-decoration:none;
+  transition:all 0.15s;
+}
+.year-switch a.y3{
+  background:rgba(255,215,0,0.12);color:#ffd700;
+  border:1px solid rgba(255,215,0,0.25);
+}
+.year-switch a.y3:hover{background:rgba(255,215,0,0.2)}
+.year-switch a.rec{
+  background:rgba(80,200,120,0.12);color:#50c878;
+  border:1px solid rgba(80,200,120,0.25);
+}
+.year-switch a.rec:hover{background:rgba(80,200,120,0.2)}
+.year-switch a.active{opacity:1;pointer-events:none}
+.year-switch a:not(.active){opacity:0.5}
+.year-switch a:not(.active):hover{opacity:0.8}
+
 @media(max-width:640px){
+  .year-switch{top:auto;bottom:8px;right:14px;left:14px;justify-content:center;z-index:999}
+  .year-switch a{padding:6px 16px;font-size:12px}
   header{padding:10px 14px}
   header .school h1{font-size:13px}
   .day-strip{
@@ -169,20 +195,26 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 </head>
 <body>
 
+<!-- Year Switch -->
+<div class="year-switch">
+  <a href="/" class="y3 active">Year 3</a>
+  <a href="/reception" class="rec">Reception</a>
+</div>
+
 <header>
   <div class="school">
     <h1>Dolphin School</h1>
     <span>Wokingham, Berkshire</span>
   </div>
   <div class="badge">
-    <span class="week" id="weekBadge">Week B</span>
-    <span class="dates" id="dateRange">11–17 May 2026</span>
+    <span class="week" id="weekBadge">Week A</span>
+    <span class="dates" id="dateRange">18–24 May 2026</span>
   </div>
 </header>
 
 <div class="image-area">
   <div class="zoom-wrap" id="zoomWrap">
-    <img id="zoomImg" src="/thisweek/image_2026-05-11.jpg" alt="This week at Dolphin School" />
+    <img id="zoomImg" src="/thisweek/image_2026-05-18.jpg" alt="This week at Dolphin School" />
   </div>
 </div>
 
@@ -203,6 +235,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
     <li><a href="/is-it-swimming-today"><span class="link-icon">🏊</span> Swimming <span class="link-arrow">→</span></a></li>
     <li><a href="/kids-vs-parents"><span class="link-icon">👨‍👩‍👧‍👦</span> Kids vs Parents <span class="link-arrow">→</span></a></li>
     <li><a href="/ideas"><span class="link-icon">💡</span> Ideas <span class="link-arrow">→</span></a></li>
+    <li><a href="/gallery"><span class="link-icon">🖼️</span> Gallery <span class="link-arrow">→</span></a></li>
   </ul>
 </div>
 
@@ -214,16 +247,16 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
 const WEEK_DATA = {
   year: 2026,
   startMonth: 5,  // 1-indexed
-  startDay: 11,
-  weekLabel: 'B',
+  startDay: 18,
+  weekLabel: 'A',
   days: [
-    { name:'Mon', date:11, weather:'🌦', temp:'13°', activities:['Dance']},
-    { name:'Tue', date:12, weather:'☁️', temp:'15°', activities:['Swimming']},
-    { name:'Wed', date:13, weather:'🌦', temp:'13°', activities:['PE Kit']},
-    { name:'Thu', date:14, weather:'🌦', temp:'10°', activities:['Mum Cinema']},
-    { name:'Fri', date:15, weather:'☁️', temp:'14°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
-    { name:'Sat', date:16, weather:'🌦', temp:'14°', activities:["Gus's Birthday Party",'Eurovision Party']},
-    { name:'Sun', date:17, weather:'🌦', temp:'17°', activities:[]}
+    { name:'Mon', date:18, weather:'☁️', temp:'13°', activities:['Dance']},
+    { name:'Tue', date:19, weather:'🌧', temp:'16°', activities:['Swimming']},
+    { name:'Wed', date:20, weather:'🌦', temp:'19°', activities:['PE Kit']},
+    { name:'Thu', date:21, weather:'🌦', temp:'21°', activities:['Mum Cinema']},
+    { name:'Fri', date:22, weather:'☁️', temp:'23°', activities:['PE Kit','All Stars Cricket','Dolphin Forum']},
+    { name:'Sat', date:23, weather:'☁️', temp:'20°', activities:[]},
+    { name:'Sun', date:24, weather:'☀️', temp:'23°', activities:[]}
   ]
 };
 

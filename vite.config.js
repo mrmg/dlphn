@@ -34,6 +34,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
+        reception: 'reception.html',
+        gallery: 'gallery.html',
         games: 'games.html',
         ideas: 'ideas.html',
         card: 'card/index.html',
