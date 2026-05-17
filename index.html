@@ -164,7 +164,7 @@ header .badge .dates{font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:0.3
   header{padding:10px 14px}
   header .school h1{font-size:13px}
   .day-strip{
-    position:fixed;bottom:0;left:0;right:0;z-index:5;
+    flex-shrink:0;
     display:flex;
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
@@ -319,23 +319,16 @@ document.addEventListener('click', (e) => {
 (function() {
   const img = document.getElementById('zoomImg');
   const wrap = document.getElementById('zoomWrap');
-  const dayStrip = document.getElementById('dayStrip');
   if (!img || !wrap) return;
 
   let scale, tx, ty, coverScale;
   let lastDist = 0;
   let startX, startY;
   let imgW, imgH;
-  let barHeight = 0;
-
-  function getVisibleH() {
-    // On mobile the day strip is position:fixed;bottom:0 and overlaps the image
-    return wrap.clientHeight - (window.innerWidth <= 640 && dayStrip ? dayStrip.offsetHeight : 0);
-  }
 
   function init() {
     const cw = wrap.clientWidth;
-    const ch = wrap.clientHeight; // full container height for cover scale
+    const ch = wrap.clientHeight;
     if (!cw || !ch) { setTimeout(init, 50); return; }
     imgW = img.naturalWidth || cw;
     imgH = img.naturalHeight || ch;
@@ -349,7 +342,7 @@ document.addEventListener('click', (e) => {
 
   function clamp() {
     const cw = wrap.clientWidth;
-    const ch = getVisibleH();
+    const ch = wrap.clientHeight;
     const sw = imgW * scale;
     const sh = imgH * scale;
     // Flex centers the img's natural-size CSS box at (cw-imgW)/2
@@ -366,7 +359,7 @@ document.addEventListener('click', (e) => {
 
   function reset() {
     const cw = wrap.clientWidth;
-    const ch = getVisibleH();
+    const ch = wrap.clientHeight;
     scale = coverScale;
     tx = imgW * (1 - scale) / 2;
     ty = imgH * (1 - scale) / 2;
@@ -375,10 +368,7 @@ document.addEventListener('click', (e) => {
 
   img.onload = init;
   if (img.complete && img.naturalWidth) init();
-  window.addEventListener('resize', () => {
-    if (dayStrip) barHeight = dayStrip.offsetHeight;
-    reset();
-  });
+  window.addEventListener('resize', reset);
 
   // Touch handlers
   wrap.addEventListener('touchstart', (e) => {
@@ -388,7 +378,7 @@ document.addEventListener('click', (e) => {
       lastDist = Math.hypot(t[1].clientX - t[0].clientX, t[1].clientY - t[0].clientY);
     } else if (e.touches.length === 1) {
       const cw = wrap.clientWidth;
-      const ch = getVisibleH();
+      const ch = wrap.clientHeight;
       const sw = imgW * scale;
       const sh = imgH * scale;
       if (sw > cw || sh > ch) {
@@ -417,7 +407,7 @@ document.addEventListener('click', (e) => {
         scale = clamped;
         // Re-init if zoomed out past cover
         const cw2 = wrap.clientWidth;
-        const ch2 = getVisibleH();
+        const ch2 = wrap.clientHeight;
         const coverS = Math.max(cw2 / imgW, ch2 / imgH);
         if (scale < coverS * 0.95) { reset(); }
         else { clamp(); apply(); }
