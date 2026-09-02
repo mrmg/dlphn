@@ -284,7 +284,8 @@ export function localDateKey(d) {
 export const DEFAULT_CHIP_RULES = [
   { test: /Birthday/i, cls: 'chip-birthday' },
   { test: /Mum Cinema|Eurovision|James|Summer Fair|Careers|Performance/i, cls: 'chip-school' },
-  { test: /Dance|Swim|PE Kit/i, cls: 'chip-kit' },
+  { test: /Dance|Swim|PE Kit|Games|PE - Optional|PE — Optional/i, cls: 'chip-kit' },
+  { test: /\bPE\b|Physical Education/i, cls: 'chip-kit' },
   { test: /All Stars|Cricket|Party/i, cls: 'chip-kids' },
   { test: /Mum|Dad|Parent|PYJAMARAMA|Discover Dolphin|Digital Detox|Dolphin Forum|East Sussex|Trip|Forest School/i, cls: 'chip-parents' }
 ];
