@@ -86,9 +86,12 @@ svg{display:block;fill:currentColor}
 }
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .wordmark{
+  display:inline-flex;align-items:center;gap:10px;
   color:var(--text);text-decoration:none;
   font-weight:600;font-size:18px;letter-spacing:-.015em;white-space:nowrap;
 }
+.wordmark svg{width:30px;height:30px;flex-shrink:0;color:var(--accent);transition:color .3s ease,transform .3s var(--ease)}
+.wordmark:hover svg{transform:translateX(2px)}
 .top-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
 
 .week-badge{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;text-align:right}
@@ -129,7 +132,7 @@ svg{display:block;fill:currentColor}
   box-shadow:0 8px 20px -10px var(--accent);
   transition:transform .34s var(--ease),background-color .3s ease,opacity .2s ease;
 }
-.seg[data-active="reception"] .seg-thumb{transform:translateX(100%)}
+.seg[data-active="year4"] .seg-thumb{transform:translateX(100%)}
 .seg[data-active="both"] .seg-thumb{opacity:0}
 .seg a{
   position:relative;z-index:1;
@@ -174,7 +177,7 @@ svg{display:block;fill:currentColor}
   position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
   color:var(--text-3);font-size:14px;
 }
-.poster-empty svg{width:40px;height:40px;opacity:.5}
+.poster-empty svg{width:56px;height:56px;color:var(--accent);opacity:.6}
 .poster-empty[hidden]{display:none}
 .poster-action{
   position:absolute;right:14px;bottom:14px;
@@ -380,5 +383,6 @@ dialog.lightbox::backdrop{background:rgba(4,8,20,.92)}
   .gallery-grid .poster-card:first-child .thumb{flex:1;min-height:0}
 }
 @media (max-width:479px){
-  .week-page .wordmark{display:none}
+  .week-page .wordmark span{display:none}
+  .week-page .brand{gap:10px}
 }

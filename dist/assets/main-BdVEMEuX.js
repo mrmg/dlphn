@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";import{i as E}from"./site-Bw4b5bsp.js";E({data:window.WEEK_DATA,rules:window.CHIP_RULES,timetable:window.RECEPTION_TIMETABLE,weekAStart:window.WEEK_A_START,dayOverrides:window.RECEPTION_DAY_OVERRIDES,posters:{reception:window.RECEPTION_POSTER}});
