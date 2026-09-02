@@ -642,7 +642,6 @@ function loadWeather() {
 // ── Page bootstrap ──
 export function initChrome(onViewChange) {
   hydrateIcons();
-  initYearMenu(onViewChange);
   initSegmented(onViewChange);
   initMenu(onViewChange || undefined);
   const posterEl = document.getElementById('poster');
