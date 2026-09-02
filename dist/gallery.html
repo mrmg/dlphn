@@ -16,26 +16,31 @@
 <meta property="og:description" content="Every weekly poster from dlphn.app, newest first." />
 <meta property="og:image" content="https://dlphn.app/social-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
-  <script type="module" crossorigin src="/assets/gallery-UPAsrR7m.js"></script>
+  <script type="module" crossorigin src="/assets/gallery-DOZBN_j-.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="modulepreload" crossorigin href="/assets/site-9bjIlgtW.js">
-  <link rel="stylesheet" crossorigin href="/assets/site-Dq1wBlSH.css">
+  <link rel="modulepreload" crossorigin href="/assets/site-Bw4b5bsp.js">
+  <link rel="stylesheet" crossorigin href="/assets/site-S8tqJDY3.css">
 </head>
-<body class="gallery-page">
+<body class="gallery-page" data-year="year4">
 
 <header class="top">
   <div class="brand">
     <a class="wordmark" href="/">Dolphin School</a>
+    <nav class="seg" id="yearSeg" data-active="year4" aria-label="Year group">
+      <span class="seg-thumb" aria-hidden="true"></span>
+      <a href="/gallery" data-view="year4" aria-current="page">Year 4</a>
+      <a href="/gallery?reception" data-view="reception">Reception</a>
+    </nav>
   </div>
   <div class="top-right">
-    <a class="text-link" href="/"><span data-icon="arrowLeft"></span>This week</a>
+    <a class="text-link" id="backLink" href="/"><span data-icon="arrowLeft"></span>This week</a>
     <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu"><span data-icon="list"></span></button>
   </div>
 </header>
 
 <main class="gallery-wrap">
   <div class="gallery-head">
-    <h1>Poster gallery</h1>
+    <h1 id="galleryTitle">Year 4 posters</h1>
     <span class="count" id="posterCount"></span>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
@@ -56,8 +61,10 @@
 </dialog>
 
 <script>
-// ── Poster archive: add the newest poster at the top ──
+// ── Year 4 poster archive: add the newest poster at the top ──
 const posters = [
+  { src:'/thisweek/image_2026-08-31.jpg?v=2', week:'Week A, back to school', dates:'31 Aug-6 Sep 2026' },
+  { src:'/thisweek/image_2026-08-31_v1.jpg', week:'Week A, back to school (v1)', dates:'31 Aug-6 Sep 2026' },
   { src:'/thisweek/image_2026-07-06.jpg', week:'Week A, last week of term', dates:'6-12 July 2026' },
   { src:'/thisweek/image_2026-06-29.jpg', week:'Week B', dates:'29 June-5 July 2026' },
   { src:'/thisweek/image_2026-06-15.jpg', week:'Week B', dates:'15-21 June 2026' },
@@ -68,7 +75,11 @@ const posters = [
   { src:'/thisweek/image_2026-05-18.jpg', week:'Week A', dates:'18-24 May 2026' },
   { src:'/thisweek/image_2026-05-11.jpg', week:'Week B', dates:'11-17 May 2026' }
 ];
+// ── Reception poster archive (shown at /gallery?reception). Same shape; newest first. ──
+const receptionPosters = [];
+
 window.posters = posters;
+window.receptionPosters = receptionPosters;
 </script>
 
 </body>

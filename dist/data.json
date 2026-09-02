@@ -1,11 +1,11 @@
 {
   "weather": [
-    { "date": "2026-07-06", "temp": 32, "condition": "Overcast" },
-    { "date": "2026-07-07", "temp": 31, "condition": "Overcast" },
-    { "date": "2026-07-08", "temp": 31, "condition": "Sunny" },
-    { "date": "2026-07-09", "temp": 32, "condition": "Partly cloudy" },
-    { "date": "2026-07-10", "temp": 34, "condition": "Drizzle" },
-    { "date": "2026-07-11", "temp": 33, "condition": "Drizzle" },
-    { "date": "2026-07-12", "temp": 28, "condition": "Drizzle" }
+    { "date": "2026-08-31", "temp": 22, "condition": "Drizzle" },
+    { "date": "2026-09-01", "temp": 21, "condition": "Overcast" },
+    { "date": "2026-09-02", "temp": 20, "condition": "Drizzle" },
+    { "date": "2026-09-03", "temp": 25, "condition": "Overcast" },
+    { "date": "2026-09-04", "temp": 21, "condition": "Drizzle" },
+    { "date": "2026-09-05", "temp": 21, "condition": "Overcast" },
+    { "date": "2026-09-06", "temp": 26, "condition": "Overcast" }
   ]
 }

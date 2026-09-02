@@ -95,3 +95,11 @@ Gallery: same header with a "This week" back link. Grid of poster figures at 3:2
 ### Out of scope
 
 Deploying to Firebase (left for the owner), the games and project sub-apps, a new poster for September, light mode (the posters are designed for a dark frame and the site has always been dark).
+
+## Revision 2026-09-02 (evening): header switch, scoped menu, per-year posters
+
+- The header dropdown is replaced by a segmented control (Year 4 | Reception) with a sliding accent thumb. It switches the view in place on both the weekly page and the gallery.
+- The menu sheet is rebuilt on every view change and scoped to the year group: a "Year group" switcher with a check on the current one, a "This week / Poster gallery" pair for that year, and a "<Year> projects" list. Reception has no projects yet and says so.
+- Posters are per year group. The `<img id="zoomImg">` stays the Year 4 poster (weekly-update contract). `RECEPTION_POSTER` in the inline block supplies the Reception poster, or `null` for an empty panel.
+- The gallery is per year group: `/gallery` is Year 4 (`posters`), `/gallery?reception` is Reception (`receptionPosters`), each with its own empty state.
+- `RECEPTION_DAY_OVERRIDES` (added by the weekly update) replaces the recurring timetable for specific dates.

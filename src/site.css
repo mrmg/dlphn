@@ -116,38 +116,31 @@ svg{display:block;fill:currentColor}
 .text-link:hover{background:var(--hover);color:var(--text)}
 .text-link svg{width:16px;height:16px}
 
-/* ── Year group dropdown ── */
-.year-menu{position:relative}
-.year-menu summary{
-  list-style:none;cursor:pointer;
-  display:inline-flex;align-items:center;gap:6px;
-  height:34px;padding:0 10px 0 12px;
-  border-radius:var(--r-md);
-  background:var(--accent-soft);border:1px solid var(--accent-line);
-  color:var(--accent);font-weight:600;font-size:14px;white-space:nowrap;
-  transition:background var(--dur) var(--ease),transform var(--dur) var(--ease);
+/* ── Year group switch ── */
+.seg{
+  position:relative;isolation:isolate;
+  display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;
+  padding:3px;border-radius:12px;
+  background:rgba(255,255,255,.06);border:1px solid var(--line);
 }
-.year-menu summary::-webkit-details-marker{display:none}
-.year-menu summary::marker{content:''}
-.year-menu summary:hover{background:var(--accent-soft-2)}
-.year-menu summary:active{transform:scale(.98)}
-.year-menu summary svg{width:14px;height:14px;transition:transform var(--dur) var(--ease)}
-.year-menu[open] summary svg{transform:rotate(180deg)}
-.year-menu ul{
-  position:absolute;top:calc(100% + 6px);left:0;z-index:1;
-  min-width:190px;list-style:none;padding:6px;
-  background:var(--bg-3);border:1px solid var(--line-2);border-radius:var(--r-lg);
-  box-shadow:0 18px 44px rgba(4,8,20,.6);
+.seg-thumb{
+  position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / 2);
+  border-radius:9px;background:var(--accent);
+  box-shadow:0 8px 20px -10px var(--accent);
+  transition:transform .34s var(--ease),background-color .3s ease,opacity .2s ease;
 }
-.year-menu ul a{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:10px 12px;border-radius:var(--r-md);
-  color:var(--text-2);text-decoration:none;font-weight:500;
-  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+.seg[data-active="reception"] .seg-thumb{transform:translateX(100%)}
+.seg[data-active="both"] .seg-thumb{opacity:0}
+.seg a{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  height:30px;padding:0 14px;border-radius:9px;
+  font-size:13px;font-weight:600;color:var(--text-2);text-decoration:none;white-space:nowrap;
+  transition:color .25s ease;
 }
-.year-menu ul a:hover{background:var(--hover);color:var(--text)}
-.year-menu ul a[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
-.year-menu ul a small{font-size:12px;color:var(--text-3);font-weight:400}
+.seg a:hover{color:var(--text)}
+.seg a[aria-current="page"]{color:var(--accent-ink)}
+.seg[data-active="both"] a{color:var(--accent)}
 
 /* ── Poster ── */
 .poster{
@@ -178,9 +171,11 @@ svg{display:block;fill:currentColor}
 }
 .zoom-wrap img.is-loaded{opacity:1}
 .poster-empty{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
   color:var(--text-3);font-size:14px;
 }
+.poster-empty svg{width:40px;height:40px;opacity:.5}
+.poster-empty[hidden]{display:none}
 .poster-action{
   position:absolute;right:14px;bottom:14px;
   background:rgba(11,17,32,.6);border-color:rgba(255,255,255,.14);
@@ -282,6 +277,7 @@ svg{display:block;fill:currentColor}
 .sheet-links a svg{width:16px;height:16px;color:var(--text-3);flex-shrink:0}
 .sheet-links a[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
 .sheet-links a[aria-current="page"] svg{color:var(--accent)}
+.sheet-empty{padding:9px 12px;font-size:13px;color:var(--text-3)}
 
 /* ── Gallery page ── */
 .gallery-page{min-height:100vh;min-height:100dvh}
@@ -329,7 +325,6 @@ dialog.lightbox::backdrop{background:rgba(4,8,20,.92)}
   @keyframes pop{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
   .day{animation:rise .5s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms)}
   .plan-item{animation:rise .4s var(--ease) both;animation-delay:calc(160ms + var(--j,0) * 35ms)}
-  .year-menu[open] ul{animation:pop var(--dur) var(--ease)}
   .sheet.is-open .sheet-links li{animation:rise .38s var(--ease) both;animation-delay:calc(60ms + var(--i,0) * 28ms)}
   .poster-card .thumb{transition:transform var(--dur) var(--ease)}
 }
@@ -343,7 +338,7 @@ dialog.lightbox::backdrop{background:rgba(4,8,20,.92)}
   .week-page .brand{flex:1}
   .wordmark{font-size:16px}
   .brand{gap:8px}
-  .year-menu summary{height:30px;font-size:13px;padding:0 8px 0 10px}
+  .seg a{height:28px;padding:0 10px;font-size:12px}
   .top-right{gap:10px}
   .week-badge .week{font-size:14px}
   .week-badge .dates{font-size:11px}

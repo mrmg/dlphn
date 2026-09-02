@@ -23,13 +23,11 @@
 <header class="top">
   <div class="brand">
     <a class="wordmark" href="/">Dolphin School</a>
-    <details class="year-menu" id="yearMenu">
-      <summary aria-label="Change year group, currently Year 4"><span>Year 4</span><span data-icon="caretDown"></span></summary>
-      <ul>
-        <li><a href="/" data-view="year4" aria-current="page">Year 4</a></li>
-        <li><a href="/?reception" data-view="reception">Reception</a></li>
-      </ul>
-    </details>
+    <nav class="seg" id="yearSeg" data-active="year4" aria-label="Year group">
+      <span class="seg-thumb" aria-hidden="true"></span>
+      <a href="/" data-view="year4" aria-current="page">Year 4</a>
+      <a href="/?reception" data-view="reception">Reception</a>
+    </nav>
   </div>
   <div class="top-right">
     <div class="week-badge">
@@ -43,7 +41,7 @@
 <main class="poster" id="poster">
   <div class="poster-bg" aria-hidden="true"></div>
   <div class="zoom-wrap" id="zoomWrap">
-    <img id="zoomImg" src="/thisweek/image_2026-08-31.jpg?v=1" alt="This week's poster for Dolphin School" fetchpriority="high" />
+    <img id="zoomImg" src="/thisweek/image_2026-08-31.jpg?v=2" alt="This week's poster for Dolphin School" fetchpriority="high" />
   </div>
   <a href="/gallery" class="icon-btn poster-action" aria-label="Poster gallery"><span data-icon="images"></span></a>
 </main>
@@ -115,8 +113,14 @@ const RECEPTION_DAY_OVERRIDES = {
   '2026-09-04': [{ label:'Forest School', cls:'chip-forest' }, { label:'Welcome Back Event', cls:'chip-school' }]
 };
 
+// ── Reception poster ──
+// Reception has its own poster. Set to { src:'/reception/image_YYYY-MM-DD.jpg', alt:'...' } when one exists;
+// null shows a "No Reception poster yet" panel. The <img id="zoomImg"> above stays the Year 4 poster.
+const RECEPTION_POSTER = null;
+
 window.WEEK_DATA = WEEK_DATA;
 window.CHIP_RULES = CHIP_RULES;
+window.RECEPTION_POSTER = RECEPTION_POSTER;
 window.WEEK_A_START = WEEK_A_START;
 window.RECEPTION_TIMETABLE = RECEPTION_TIMETABLE;
 window.RECEPTION_DAY_OVERRIDES = RECEPTION_DAY_OVERRIDES;
@@ -128,7 +132,8 @@ initWeekPage({
   rules: window.CHIP_RULES,
   timetable: window.RECEPTION_TIMETABLE,
   weekAStart: window.WEEK_A_START,
-  dayOverrides: window.RECEPTION_DAY_OVERRIDES
+  dayOverrides: window.RECEPTION_DAY_OVERRIDES,
+  posters: { reception: window.RECEPTION_POSTER }
 });
 </script>
 

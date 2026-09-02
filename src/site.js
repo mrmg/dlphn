@@ -8,6 +8,7 @@ export const ICONS = {
   images: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M216,40H72A16,16,0,0,0,56,56V72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V184h16a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM72,56H216v62.75l-10.07-10.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L72,109.37ZM184,200H40V88H56v80a16,16,0,0,0,16,16H184Zm32-32H72V132l36-36,49.66,49.66a8,8,0,0,0,11.31,0L194.63,120,216,141.38V168ZM160,84a12,12,0,1,1,12,12A12,12,0,0,1,160,84Z"/></svg>',
   arrowUpRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>',
   arrowLeft: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>',
+  check: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>',
   backpack: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M168,40.58V32A24,24,0,0,0,144,8H112A24,24,0,0,0,88,32v8.58A56.09,56.09,0,0,0,40,96V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V96A56.09,56.09,0,0,0,168,40.58ZM112,24h32a8,8,0,0,1,8,8v8H104V32A8,8,0,0,1,112,24Zm56,136H88v-8a8,8,0,0,1,8-8h64a8,8,0,0,1,8,8ZM88,176h48v8a8,8,0,0,0,16,0v-8h16v40H88Zm112,40H184V152a24,24,0,0,0-24-24H96a24,24,0,0,0-24,24v64H56V96A40,40,0,0,1,96,56h64a40,40,0,0,1,40,40V216ZM152,88a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,88Z"/></svg>',
   baseball: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM72.09,195.91c.82-1,1.64-1.93,2.42-2.91A8,8,0,1,0,62,183l-1.34,1.62a87.82,87.82,0,0,1,0-113.24L62,73A8,8,0,1,0,74.51,63c-.78-1-1.6-2-2.42-2.91a87.84,87.84,0,0,1,111.82,0c-.82,1-1.64,1.92-2.42,2.91A8,8,0,1,0,194,73l1.34-1.62a87.82,87.82,0,0,1,0,113.24L194,183a8,8,0,1,0-12.48,10c.78,1,1.6,1.95,2.42,2.91a87.84,87.84,0,0,1-111.82,0Zm23.8-50.59a104.5,104.5,0,0,1-4.48,17.35,8,8,0,0,1-15.09-5.34,87.1,87.1,0,0,0,3.79-14.65,8,8,0,1,1,15.78,2.64Zm0-34.64a8,8,0,0,1-6.57,9.21A8.52,8.52,0,0,1,88,120a8,8,0,0,1-7.88-6.68,87.1,87.1,0,0,0-3.79-14.65,8,8,0,0,1,15.09-5.34A104.5,104.5,0,0,1,95.89,110.68Zm78.91,56.86a8,8,0,0,1-10.21-4.87,104.5,104.5,0,0,1-4.48-17.35,8,8,0,1,1,15.78-2.64,87.1,87.1,0,0,0,3.79,14.65A8,8,0,0,1,174.8,167.54Zm-14.69-56.86a104.5,104.5,0,0,1,4.48-17.35,8,8,0,0,1,15.09,5.34,87.1,87.1,0,0,0-3.79,14.65A8,8,0,0,1,168,120a8.52,8.52,0,0,1-1.33-.11A8,8,0,0,1,160.11,110.68Z"/></svg>',
   bus: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M184,32H72A32,32,0,0,0,40,64V208a16,16,0,0,0,16,16H80a16,16,0,0,0,16-16V192h64v16a16,16,0,0,0,16,16h24a16,16,0,0,0,16-16V64A32,32,0,0,0,184,32ZM56,176V120H200v56Zm0-96H200v24H56ZM72,48H184a16,16,0,0,1,16,16H56A16,16,0,0,1,72,48Zm8,160H56V192H80Zm96,0V192h24v16Zm-72-60a12,12,0,1,1-12-12A12,12,0,0,1,104,148Zm72,0a12,12,0,1,1-12-12A12,12,0,0,1,176,148Zm72-68v24a8,8,0,0,1-16,0V80a8,8,0,0,1,16,0ZM24,80v24a8,8,0,0,1-16,0V80a8,8,0,0,1,16,0Z"/></svg>',
@@ -86,13 +87,9 @@ export function iconFor(label, cls) {
 export const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 export const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-const SITE_LINKS = [
-  { group: 'This week', items: [
-    { href: '/', label: 'Year 4' },
-    { href: '/?reception', label: 'Reception' },
-    { href: '/gallery', label: 'Poster gallery' }
-  ]},
-  { group: 'Projects', items: [
+// Projects are scoped to a year group. Reception has none yet.
+const PROJECTS = {
+  year4: [
     { href: '/card', label: 'Card' },
     { href: '/games', label: 'Games' },
     { href: '/horrid', label: 'Horrid' },
@@ -100,8 +97,13 @@ const SITE_LINKS = [
     { href: '/kids-vs-parents', label: 'Kids vs Parents' },
     { href: '/half-term-fighter', label: 'Half Term Fighter' },
     { href: '/ideas', label: 'Ideas' }
-  ]}
-];
+  ],
+  reception: []
+};
+
+export function galleryHref(view) {
+  return view === 'reception' ? '/gallery?reception' : '/gallery';
+}
 
 const isMobile = () => window.matchMedia('(max-width: 720px)').matches;
 
@@ -121,7 +123,9 @@ export function hydrateIcons(root = document) {
 }
 
 // ── Menu sheet ──
-export function initMenu(currentPath = location.pathname + location.search) {
+let menu = null;
+
+export function initMenu(onSwitch) {
   const button = document.getElementById('menuBtn');
   if (!button) return;
 
@@ -142,26 +146,6 @@ export function initMenu(currentPath = location.pathname + location.search) {
   head.append(titleWrap, close);
 
   const body = el('div', 'sheet-body');
-  let index = 0;
-  SITE_LINKS.forEach(group => {
-    body.appendChild(el('div', 'sheet-group', group.group));
-    const list = el('ul', 'sheet-links');
-    group.items.forEach(item => {
-      const li = el('li');
-      li.style.setProperty('--i', index++);
-      const a = el('a');
-      a.href = item.href;
-      a.appendChild(el('span', null, item.label));
-      const arrow = el('span');
-      arrow.innerHTML = ICONS.arrowUpRight;
-      a.appendChild(arrow.firstChild);
-      if (normalise(item.href) === normalise(currentPath)) a.setAttribute('aria-current', 'page');
-      li.appendChild(a);
-      list.appendChild(li);
-    });
-    body.appendChild(list);
-  });
-
   sheet.append(head, body);
   document.body.append(backdrop, sheet);
 
@@ -189,35 +173,85 @@ export function initMenu(currentPath = location.pathname + location.search) {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && sheet.classList.contains('is-open')) shut();
   });
+
+  menu = { body, shut, onSwitch };
+  renderMenu(readViews());
 }
 
-function normalise(url) {
-  const [path, query = ''] = url.split('?');
-  const cleanPath = path.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/$/, '') || '/';
-  return cleanPath + (query ? '?' + query : '');
-}
-
-// ── Year group dropdown ──
-export function initYearMenu(onChange) {
-  const menu = document.getElementById('yearMenu');
+// Rebuild the sheet contents for the current view(s). Called on every view change.
+export function renderMenu(views = readViews()) {
   if (!menu) return;
-  document.addEventListener('click', e => {
-    if (menu.open && !menu.contains(e.target)) menu.open = false;
-  });
-  if (onChange) {
-    menu.querySelectorAll('a[href]').forEach(a => a.addEventListener('click', e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-      e.preventDefault();
-      history.pushState({}, '', a.getAttribute('href'));
-      menu.open = false;
-      onChange();
-    }));
+  const { body } = menu;
+  const onGallery = location.pathname.startsWith('/gallery');
+  const primary = views[0];
+  const single = views.length === 1;
+  body.innerHTML = '';
+  let index = 0;
+
+  function addGroup(title, items, emptyText) {
+    body.appendChild(el('div', 'sheet-group', title));
+    const list = el('ul', 'sheet-links');
+    if (!items.length) list.appendChild(el('li', 'sheet-empty', emptyText));
+    items.forEach(item => {
+      const li = el('li');
+      li.style.setProperty('--i', index++);
+      const a = el('a');
+      a.href = item.href;
+      a.appendChild(el('span', null, item.label));
+      const icon = el('span');
+      icon.innerHTML = item.current ? ICONS.check : ICONS.arrowUpRight;
+      icon.firstChild.classList.add(item.current ? 'check' : 'arrow');
+      a.appendChild(icon.firstChild);
+      if (item.current) a.setAttribute('aria-current', 'page');
+      if (item.switchView && menu.onSwitch) {
+        a.addEventListener('click', e => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+          e.preventDefault();
+          history.pushState({}, '', item.href);
+          menu.shut();
+          menu.onSwitch();
+        });
+      }
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    body.appendChild(list);
   }
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menu.open) {
-      menu.open = false;
-      menu.querySelector('summary').focus();
-    }
+
+  addGroup('Year group', Object.values(VIEWS).map(v => ({
+    href: onGallery ? galleryHref(v.key) : v.href,
+    label: v.label,
+    current: single && v.key === primary,
+    switchView: true
+  })));
+
+  addGroup(VIEWS[primary].label, [
+    { href: VIEWS[primary].href, label: 'This week', current: !onGallery, switchView: !onGallery },
+    { href: galleryHref(primary), label: 'Poster gallery', current: onGallery, switchView: onGallery }
+  ]);
+
+  addGroup(`${VIEWS[primary].label} projects`, PROJECTS[primary] || [], 'Nothing here yet');
+}
+
+// ── Year group switch (segmented control in the header) ──
+export function initSegmented(onChange) {
+  const seg = document.getElementById('yearSeg');
+  if (!seg) return;
+  seg.querySelectorAll('a[data-view]').forEach(a => a.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    history.pushState({}, '', a.getAttribute('href'));
+    if (onChange) onChange();
+  }));
+}
+
+export function syncSegmented(views) {
+  const seg = document.getElementById('yearSeg');
+  if (!seg) return;
+  seg.dataset.active = views.length > 1 ? 'both' : views[0];
+  seg.querySelectorAll('a[data-view]').forEach(a => {
+    if (views.length === 1 && a.dataset.view === views[0]) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
   });
 }
 
@@ -398,19 +432,45 @@ export function initZoom(poster) {
     apply();
   }
 
+  const empty = el('div', 'poster-empty');
+  empty.hidden = true;
+  poster.appendChild(empty);
+
   function ready() {
     imgW = img.naturalWidth;
     imgH = img.naturalHeight;
     if (!imgW || !imgH) return;
+    empty.hidden = true;
     if (bg) bg.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
     img.classList.add('is-loaded');
     fit();
   }
+  function showEmpty(text) {
+    img.classList.remove('is-loaded');
+    poster.classList.remove('is-contain');
+    if (bg) bg.style.backgroundImage = '';
+    empty.innerHTML = ICONS.images;
+    empty.appendChild(el('span', null, text));
+    empty.hidden = false;
+  }
+  function setImage(src, alt, emptyText) {
+    if (!src) {
+      img.removeAttribute('src');
+      showEmpty(emptyText || 'No poster yet.');
+      return;
+    }
+    if (alt) img.alt = alt;
+    if (img.getAttribute('src') !== src) {
+      img.classList.remove('is-loaded');
+      img.src = src;
+    } else if (img.complete && img.naturalWidth) {
+      ready();
+    }
+  }
 
-  if (img.complete && img.naturalWidth) ready(); else img.addEventListener('load', ready, { once: true });
-  img.addEventListener('error', () => {
-    poster.appendChild(el('div', 'poster-empty', 'No poster for this week yet.'));
-  }, { once: true });
+  img.addEventListener('load', ready);
+  img.addEventListener('error', () => showEmpty('This poster could not be loaded.'));
+  if (img.complete && img.naturalWidth) ready();
   new ResizeObserver(() => fit()).observe(wrap);
 
   wrap.addEventListener('touchstart', e => {
@@ -477,6 +537,8 @@ export function initZoom(poster) {
   });
   wrap.addEventListener('pointerup', () => { dragging = null; });
   wrap.addEventListener('pointercancel', () => { dragging = null; });
+
+  return { setImage };
 }
 
 // ── Views: which year groups the URL asks for ──
@@ -581,7 +643,8 @@ function loadWeather() {
 export function initChrome(onViewChange) {
   hydrateIcons();
   initYearMenu(onViewChange);
-  initMenu();
+  initSegmented(onViewChange);
+  initMenu(onViewChange || undefined);
   const poster = document.getElementById('poster');
   if (poster) initZoom(poster);
 }
@@ -621,23 +684,16 @@ function renderStrips(wrapper, models) {
   });
 }
 
-function syncYearMenu(views) {
-  const menu = document.getElementById('yearMenu');
-  if (!menu) return;
-  const label = views.length > 1 ? 'Year 4 + Reception' : VIEWS[views[0]].label;
-  const summary = menu.querySelector('summary');
-  const text = summary.querySelector('span');
-  if (text) text.textContent = label;
-  summary.setAttribute('aria-label', `Change year group, currently ${label}`);
-  menu.querySelectorAll('a[data-view]').forEach(a => {
-    if (views.length === 1 && a.dataset.view === views[0]) a.setAttribute('aria-current', 'page');
-    else a.removeAttribute('aria-current');
-  });
-}
-
 // Single weekly page. The URL decides which year group(s) to show; data blocks are inline in index.html.
 export function initWeekPage(sources = {}) {
   const wrapper = document.getElementById('dayStrip');
+  const img = document.querySelector('#poster img');
+  const posters = {
+    year4: (sources.posters && sources.posters.year4) || (img ? { src: img.getAttribute('src'), alt: img.alt } : null),
+    reception: (sources.posters && sources.posters.reception) || null
+  };
+  const galleryLink = document.querySelector('.poster-action');
+  let chrome = null;
 
   function render() {
     const views = readViews();
@@ -650,7 +706,13 @@ export function initWeekPage(sources = {}) {
 
     setBadge(primary.weekLabel);
     setDateRange(rangeOf(primary.days));
-    syncYearMenu(views);
+    syncSegmented(views);
+    renderMenu(views);
+    if (galleryLink) galleryLink.href = galleryHref(primary.view);
+    if (chrome && chrome.poster) {
+      const p = posters[primary.view];
+      chrome.poster.setImage(p && p.src, (p && p.alt) || `This week's poster for ${primary.label}`, `No ${primary.label} poster yet.`);
+    }
     if (wrapper) renderStrips(wrapper, models);
 
     const live = models.filter(m => m.liveWeather);
@@ -662,7 +724,7 @@ export function initWeekPage(sources = {}) {
     }
   }
 
-  initChrome(render);
+  chrome = initChrome(render);
   window.addEventListener('popstate', render);
   window.addEventListener('hashchange', render);
   render();
