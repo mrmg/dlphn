@@ -6,8 +6,18 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "redirects": [],
+    "redirects": [
+      {
+        "source": "/reception",
+        "destination": "/?reception",
+        "type": 301
+      }
+    ],
     "rewrites": [
+      {
+        "source": "/",
+        "destination": "/index.html"
+      },
       {
         "source": "/ideas",
         "destination": "/ideas.html"
@@ -59,6 +69,18 @@
       {
         "source": "/kids-vs-parents/**",
         "destination": "/kids-vs-parents/index.html"
+      },
+      {
+        "source": "/half-term-fighter/assets/**",
+        "destination": "/half-term-fighter/assets/**"
+      },
+      {
+        "source": "/half-term-fighter",
+        "destination": "/half-term-fighter/index.html"
+      },
+      {
+        "source": "/half-term-fighter/**",
+        "destination": "/half-term-fighter/index.html"
       },
       {
         "source": "**",

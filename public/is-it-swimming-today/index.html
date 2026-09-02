@@ -72,10 +72,10 @@
   <script>
     const DAY_MS = 24 * 60 * 60 * 1000;
 
-    // Week A anchor (the week containing 22 Apr 2026).
-    const WEEK_A_ANCHOR = new Date('2026-04-20T00:00:00');
-    const HALF_TERM_START = new Date('2026-05-23T00:00:00');
-    const HALF_TERM_END = new Date('2026-06-02T23:59:59');
+    // Ref: Mon 9 Feb 2026 = Week A (matches school dashboard).
+    const WEEK_A_START = new Date(2026, 1, 9);
+    const HALF_TERM_START = new Date(2026, 4, 23); // May 23
+    const HALF_TERM_END = new Date(2026, 5, 2);    // June 2
 
     function startOfDay(date) {
       return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -87,25 +87,27 @@
       return Math.floor((endUtc - startUtc) / DAY_MS);
     }
 
-    function overlapDays(rangeStart, rangeEnd, frozenStart, frozenEnd) {
-      const start = new Date(Math.max(rangeStart.getTime(), frozenStart.getTime()));
-      const end = new Date(Math.min(rangeEnd.getTime(), frozenEnd.getTime()));
+    function mondayOf(date) {
+      const monday = startOfDay(date);
+      const day = monday.getDay();
+      monday.setDate(monday.getDate() - day + (day === 0 ? -6 : 1));
+      return monday;
+    }
 
-      if (end < start) return 0;
-      return differenceInDays(startOfDay(start), startOfDay(end)) + 1;
+    function isHalfTerm(date) {
+      const today = startOfDay(date);
+      return today >= HALF_TERM_START && today <= HALF_TERM_END;
     }
 
     function isWeekA(date) {
-      const today = startOfDay(date);
-      let elapsedDays = differenceInDays(WEEK_A_ANCHOR, today);
+      const monday = mondayOf(date);
+      let weekIndex = Math.floor(differenceInDays(WEEK_A_START, monday) / 7);
 
-      if (elapsedDays < 0) {
-        return Math.abs(Math.ceil(elapsedDays / 7)) % 2 === 0;
+      // Half term doesn't advance the A/B cycle — undo the extra flip after term resumes.
+      if (monday > HALF_TERM_END) {
+        weekIndex -= 1;
       }
 
-      const frozenDays = overlapDays(WEEK_A_ANCHOR, today, HALF_TERM_START, HALF_TERM_END);
-      const effectiveDays = elapsedDays - frozenDays;
-      const weekIndex = Math.floor(effectiveDays / 7);
       return weekIndex % 2 === 0;
     }
 
@@ -160,11 +162,18 @@
 
     function render() {
       const today = startOfDay(new Date());
-      const [nextDate, followingDate] = nextSwimmingDates(today);
-      const isTodaySwimming = differenceInDays(today, nextDate) === 0;
-
       const answer = document.getElementById('answer');
       const details = document.getElementById('details');
+
+      if (isHalfTerm(today)) {
+        answer.textContent = 'NO';
+        answer.style.color = 'var(--no-color)';
+        details.textContent = 'Half term — no swimming.';
+        return;
+      }
+
+      const [nextDate, followingDate] = nextSwimmingDates(today);
+      const isTodaySwimming = differenceInDays(today, nextDate) === 0;
 
       if (isTodaySwimming) {
         answer.textContent = 'YES';

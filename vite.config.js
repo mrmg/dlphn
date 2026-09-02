@@ -1,31 +1,64 @@
 import { defineConfig } from 'vite';
 
+// Clean URLs for the top-level pages, matching the Firebase rewrites. Used by dev and preview.
+const CLEAN_URLS = {
+  '/gallery': '/gallery.html',
+  '/games': '/games.html',
+  '/ideas': '/ideas.html',
+  '/horrid': '/horrid/horrid.html',
+  '/card': '/card/index.html'
+};
+
+function cleanUrls(req, res, next) {
+  const [requestPath, query] = (req.url || '').split('?');
+  const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(requestPath);
+  const qs = query ? '?' + query : '';
+
+  // The old Reception page is now a view of the home page.
+  if (requestPath === '/reception') {
+    res.statusCode = 302;
+    res.setHeader('Location', '/?reception');
+    res.end();
+    return;
+  }
+  if (CLEAN_URLS[requestPath]) {
+    req.url = CLEAN_URLS[requestPath] + qs;
+    next();
+    return;
+  }
+  if (requestPath === '/is-it-swimming-today') {
+    req.url = '/is-it-swimming-today/index.html' + qs;
+    next();
+    return;
+  }
+  if (
+    (requestPath === '/kids-vs-parents' || requestPath.startsWith('/kids-vs-parents/')) &&
+    !hasFileExtension &&
+    !requestPath.startsWith('/kids-vs-parents/src/')
+  ) {
+    req.url = '/kids-vs-parents/index.html' + qs;
+    next();
+    return;
+  }
+  if (
+    (requestPath === '/half-term-fighter' || requestPath.startsWith('/half-term-fighter/')) &&
+    !hasFileExtension &&
+    !requestPath.startsWith('/half-term-fighter/src/') &&
+    !requestPath.startsWith('/half-term-fighter/assets/')
+  ) {
+    req.url = '/half-term-fighter/index.html' + qs;
+    next();
+    return;
+  }
+  next();
+}
+
 export default defineConfig({
   plugins: [
     {
-      name: 'swimming-page-redirect',
-      configureServer(server) {
-        server.middlewares.use((req, res, next) => {
-          const requestPath = (req.url || '').split('?')[0];
-          const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(requestPath);
-
-          if (requestPath === '/is-it-swimming-today') {
-            req.url = '/is-it-swimming-today/index.html';
-            next();
-            return;
-          }
-          if (
-            (requestPath === '/kids-vs-parents' || requestPath.startsWith('/kids-vs-parents/')) &&
-            !hasFileExtension &&
-            !requestPath.startsWith('/kids-vs-parents/src/')
-          ) {
-            req.url = '/kids-vs-parents/index.html';
-            next();
-            return;
-          }
-          next();
-        });
-      }
+      name: 'clean-urls',
+      configureServer(server) { server.middlewares.use(cleanUrls); },
+      configurePreviewServer(server) { server.middlewares.use(cleanUrls); }
     }
   ],
   build: {
@@ -34,7 +67,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        reception: 'reception.html',
         gallery: 'gallery.html',
         games: 'games.html',
         ideas: 'ideas.html',
@@ -45,7 +77,8 @@ export default defineConfig({
         'horrid-gallery-main': 'horrid/gallery.html',
         'horrid-gallery-redirect': 'horrid/gallery/index.html',
         'horrid-admin': 'horrid/admin.html',
-        'kids-vs-parents': 'kids-vs-parents/index.html'
+        'kids-vs-parents': 'kids-vs-parents/index.html',
+        'half-term-fighter': 'half-term-fighter/index.html'
       },
       output: {
         manualChunks: {

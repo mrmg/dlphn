@@ -25,11 +25,18 @@ Functional defects found:
 
 ### Scope
 
-Redesign `index.html` (now Year 4), `reception.html` and `gallery.html` with shared styles and scripts. Fix routing. Preserve the weekly-update contract. Leave games, card, horrid, kids-vs-parents, half-term-fighter, ideas and the swimming page untouched.
+Redesign `index.html` (Year 4 and Reception views) and `gallery.html` with shared styles and scripts; retire `reception.html`. Fix routing. Preserve the weekly-update contract. Leave games, card, horrid, kids-vs-parents, half-term-fighter, ideas and the swimming page untouched.
 
-### Year-group dropdown
+### One page, URL-selected year group
 
-A `<details>`-based dropdown in the header next to the wordmark shows the current year group ("Year 4" or "Reception") and opens a two-item menu linking to `/` and `/reception`. Works without JavaScript, closes on outside click and Escape, marks the current page with `aria-current`. Year 3 is gone everywhere.
+Year 4 and Reception are views of the same page, never mixed by default:
+
+- `/` shows Year 4.
+- `/?reception` or `/#reception` shows Reception instead (aliases `rec`).
+- Naming both, for example `/?year4&reception`, is the optional extra: both day strips stack under the shared poster, each with a small title row. This is URL-only and not offered in the dropdown.
+- `/reception` (the old separate page) 301-redirects to `/?reception`.
+
+A `<details>`-based dropdown in the header next to the wordmark shows the current view and offers Year 4 and Reception. Clicking an option updates the URL with `pushState` and re-renders without a reload; plain links still work without JavaScript. Back/forward and hash changes re-render. Year 3 is gone everywhere.
 
 ### Visual system
 
@@ -61,27 +68,26 @@ Gallery: same header with a "This week" back link. Grid of poster figures at 3:2
 - Element ids `weekBadge`, `dateRange`, `zoomImg` and `dayStrip` are unchanged.
 - `weekLabel` of a single letter renders as "Week A"; any other string (for example "Half Term") renders verbatim. The old hard-coded May half-term check is removed.
 - `gallery.html` keeps the inline `posters` array.
-- `reception.html` keeps its inline timetable and Week A reference date; the rendering moves to `src/reception.js`.
+- The Reception timetable and Week A reference date live in the same inline script block in `index.html`.
 - `public/data.json` and the three dist-only posters are copied into `public/` so builds no longer destroy them.
 
 ### Routing
 
-- `firebase.json`: add a `/reception` rewrite to `/reception.html`.
-- `vite.config.js`: dev middleware maps `/reception`, `/gallery`, `/games`, `/ideas` to their HTML files so clean URLs work locally.
+- `firebase.json`: 301 redirect `/reception` to `/?reception`.
+- `vite.config.js`: dev and preview middleware redirects `/reception` the same way and maps `/gallery`, `/games`, `/ideas` to their HTML files so clean URLs work locally.
 
 ### Files
 
 - `src/site.css`: tokens, fonts, header, dropdown, poster, day strip, sheet, gallery, lightbox, responsive rules.
-- `src/site.js`: icons, menu sheet, year dropdown, zoom, day rendering, week-page bootstrap.
-- `src/reception.js`: timetable week calculation, weather merge, render.
-- `index.html`, `reception.html`, `gallery.html`: new markup using the shared modules.
+- `src/site.js`: icons, menu sheet, year dropdown, zoom, day rendering, URL view selection, Reception timetable and weather merge, week-page bootstrap.
+- `index.html`, `gallery.html`: new markup using the shared modules.
 - `firebase.json`, `vite.config.js`: routing.
 
 ### Verification
 
 - `npm run build` succeeds and `dist/index.html` still contains the editable `WEEK_DATA` block.
-- Playwright screenshots of `/`, `/reception` and `/gallery` at 1440x900 and 390x844 against `vite preview`, including the open dropdown and menu sheet.
-- Firebase hosting emulator confirms `/reception` serves the Reception page.
+- Playwright screenshots of `/`, `/?reception`, `/?year4&reception` and `/gallery` at 1440x900 and 390x844 against `vite preview`, including the open dropdown and menu sheet.
+- Firebase hosting emulator confirms `/reception` redirects to `/?reception`.
 - Grep the three pages for em and en dashes in site-controlled strings.
 
 ### Out of scope
