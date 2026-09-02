@@ -1,0 +1,89 @@
+# Weekly pages redesign (Year 4, Reception, Gallery)
+
+Date: 2026-09-02. Site: https://dlphn.app (Firebase project `dolphin-thursday`, Vite multi-page build, `dist/` committed and deployed).
+
+## Design read
+
+Reading this as: redesign-preserve of a family "what's on this week at school" poster site, for two parents and two kids, with a playful-premium dark language, leaning toward native CSS + a self-hosted geometric sans (Outfit) + restrained motion.
+
+Dials (taste-skill): current site reads roughly VARIANCE 3 / MOTION 2 / DENSITY 5. Target: VARIANCE 4 / MOTION 4 / DENSITY 4. Preserve mode: same routes, same nav labels, same data contracts.
+
+## Audit of the current pages
+
+Brand tokens today: Inter loaded from Google, purple-navy gradient surfaces (`#1a1a3e` to `#0f0f2a`), gold accent on the Year 3 page and green on Reception, emoji for weather, chips and nav icons, a side "tab" toggle for the project hub, 400 lines of CSS and JS duplicated between `index.html` and `reception.html`.
+
+Functional defects found:
+
+- `/reception` has no Firebase rewrite, so production falls through to the `**` catch-all and serves the Games page. The Reception page is unreachable on the live site.
+- The Year 3 / Reception switch is `display:none` on the home page, so there is no way to reach Reception from `/`.
+- `dist/index.html` is newer than `index.html` (the weekly update wrote the 6-12 July data, image and chip rules straight into `dist`). Three poster images and `data.json` exist only in `dist` and would be wiped by the next `vite build`.
+- Weekly pages have no favicon links, description or Open Graph tags.
+- On mobile the day strip shows four of seven days and never scrolls to today.
+- Zoom and nav code are copy-pasted per page.
+
+## Decisions
+
+### Scope
+
+Redesign `index.html` (now Year 4), `reception.html` and `gallery.html` with shared styles and scripts. Fix routing. Preserve the weekly-update contract. Leave games, card, horrid, kids-vs-parents, half-term-fighter, ideas and the swimming page untouched.
+
+### Year-group dropdown
+
+A `<details>`-based dropdown in the header next to the wordmark shows the current year group ("Year 4" or "Reception") and opens a two-item menu linking to `/` and `/reception`. Works without JavaScript, closes on outside click and Escape, marks the current page with `aria-current`. Year 3 is gone everywhere.
+
+### Visual system
+
+- Font: Outfit variable (400-700), self-hosted under `public/fonts/`, `font-display: swap`, tabular numerals for dates and temperatures.
+- Surfaces: one cool navy family. `--bg #0b1120`, `--bg-2 #111a2e`, `--bg-3 #18233b`, hairlines at 8 percent white. No purple gradient. A faint accent-tinted radial wash at the top of the page breaks the flatness.
+- Accent: one per page, set as a CSS variable on `<body data-year>`. Year 4 keeps its gold heritage as a desaturated amber `#f2c14e`. Reception uses mint `#7ad6a8`. The accent appears on the year pill, the today column and current-page states only.
+- Chip colours stay semantic (kit, school, kids, parents, birthday; forest, PE, music, French, event for Reception) but are unified to one desaturated palette on translucent fills.
+- Radius scale: containers 14px, controls 10px, chips pill.
+- Motion: 240ms `cubic-bezier(.16,1,.3,1)`. Poster fades in on load, chips rise in with a 40ms stagger, the menu sheet slides with staggered links, buttons scale on press. All animation is disabled under `prefers-reduced-motion`.
+- Icons: Phosphor (regular weight) SVG markup inlined for menu, close, caret, gallery, arrows. No emoji in the chrome. Weather emoji remain because they are data written by the weekly update.
+- No em or en dashes in strings the site controls. Date ranges use a hyphen.
+
+### Layout
+
+Header, 64px desktop and 56px mobile: wordmark "Dolphin School" plus the year dropdown on the left, week badge (label plus date range as plain text) and a menu button on the right.
+
+Poster: fills the remaining height. In landscape containers the poster is shown whole (contain) over a blurred, dimmed copy of itself. In portrait it covers and can be panned, as today. Pinch, double-tap and double-click zoom are kept. A gallery button sits bottom-right on the poster.
+
+Day strip: seven equal columns on desktop with day, date, weather, temperature and chips. Today gets an accent top rule, accent day name and a soft accent fill. Weekend day labels are dimmed, chips are not. On mobile the strip becomes a horizontal snap scroller showing about three days, auto-scrolled so today is centred, with soft edge fades.
+
+Menu sheet: a right-hand panel replaces the floating side tab. Groups: "This week" (Year 4, Reception, Gallery) and "Projects" (Card, Games, Horrid, Swimming, Kids vs Parents, Half Term Fighter, Ideas). Backdrop click, close button and Escape close it. Focus moves into the sheet on open and back to the button on close.
+
+Gallery: same header with a "This week" back link. Grid of poster figures at 3:2 with captions below the image. The most recent poster spans two columns on wide screens. Clicking opens a native `<dialog>` lightbox with previous and next controls, keyboard arrows and Escape.
+
+### Data contracts preserved for the weekly update
+
+- `index.html` keeps a classic (non-module) inline `<script>` holding `WEEK_DATA` in the same shape as today (`year`, `startMonth`, `startDay`, `weekLabel`, `days[]` with `name`, `date`, optional `month`, `weather`, `temp`, `activities[]`). Vite leaves classic inline scripts untouched, so editing `dist/index.html` still works.
+- The chip classification regexes move into a `CHIP_RULES` array in the same inline script so they remain editable.
+- Element ids `weekBadge`, `dateRange`, `zoomImg` and `dayStrip` are unchanged.
+- `weekLabel` of a single letter renders as "Week A"; any other string (for example "Half Term") renders verbatim. The old hard-coded May half-term check is removed.
+- `gallery.html` keeps the inline `posters` array.
+- `reception.html` keeps its inline timetable and Week A reference date; the rendering moves to `src/reception.js`.
+- `public/data.json` and the three dist-only posters are copied into `public/` so builds no longer destroy them.
+
+### Routing
+
+- `firebase.json`: add a `/reception` rewrite to `/reception.html`.
+- `vite.config.js`: dev middleware maps `/reception`, `/gallery`, `/games`, `/ideas` to their HTML files so clean URLs work locally.
+
+### Files
+
+- `src/site.css`: tokens, fonts, header, dropdown, poster, day strip, sheet, gallery, lightbox, responsive rules.
+- `src/site.js`: icons, menu sheet, year dropdown, zoom, day rendering, week-page bootstrap.
+- `src/reception.js`: timetable week calculation, weather merge, render.
+- `index.html`, `reception.html`, `gallery.html`: new markup using the shared modules.
+- `firebase.json`, `vite.config.js`: routing.
+
+### Verification
+
+- `npm run build` succeeds and `dist/index.html` still contains the editable `WEEK_DATA` block.
+- Playwright screenshots of `/`, `/reception` and `/gallery` at 1440x900 and 390x844 against `vite preview`, including the open dropdown and menu sheet.
+- Firebase hosting emulator confirms `/reception` serves the Reception page.
+- Grep the three pages for em and en dashes in site-controlled strings.
+
+### Out of scope
+
+Deploying to Firebase (left for the owner), the games and project sub-apps, a new poster for September, light mode (the posters are designed for a dark frame and the site has always been dark).
