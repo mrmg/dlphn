@@ -55,7 +55,9 @@ Header, 64px desktop and 56px mobile: wordmark "Dolphin School" plus the year dr
 
 Poster: fills the remaining height. In landscape containers the poster is shown whole (contain) over a blurred, dimmed copy of itself. In portrait it covers and can be panned, as today. Pinch, double-tap and double-click zoom are kept. A gallery button sits bottom-right on the poster.
 
-Day strip: seven equal columns on desktop with day, date, weather, temperature and chips. Today gets an accent top rule, accent day name and a soft accent fill. Weekend day labels are dimmed, chips are not. On mobile the strip becomes a horizontal snap scroller showing about three days, auto-scrolled so today is centred, with soft edge fades.
+Day cards (revised 2026-09-02 after feedback that the first pass was too conservative): the bottom bar is a row of seven cards on a translucent surface with a hairline and inner highlight. Each card has the day and date, a weather block (Phosphor weather icon in a tinted square mapped from the emoji or condition text, plus a large temperature) and the day's activities as icon-led rows, one Phosphor glyph per activity chosen from the label (swimming, kit, forest school, music, French, birthday, party, cricket, lunch, times, last day, trips) with the colour class as fallback. Today's card is wider, accent-tinted and carries a "Today" tag. Weekend cards are narrower and quieter. Weekdays with nothing on say "Nothing on". On mobile the row scrolls horizontally with snap, two cards visible, auto-centred on today.
+
+Canvas: the page background is a deep ocean gradient with a fixed film-grain overlay, the header is transparent, and the poster sits in a rounded, framed panel with a soft shadow.
 
 Menu sheet: a right-hand panel replaces the floating side tab. Groups: "This week" (Year 4, Reception, Gallery) and "Projects" (Card, Games, Horrid, Swimming, Kids vs Parents, Half Term Fighter, Ideas). Backdrop click, close button and Escape close it. Focus moves into the sheet on open and back to the button on close.
 
