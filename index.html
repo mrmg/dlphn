@@ -114,9 +114,11 @@ const RECEPTION_DAY_OVERRIDES = {
 };
 
 // ── Reception poster ──
-// Reception has its own poster. Set to { src:'/reception/image_YYYY-MM-DD.jpg', alt:'...' } when one exists;
-// null shows a "No Reception poster yet" panel. The <img id="zoomImg"> above stays the Year 4 poster.
-const RECEPTION_POSTER = null;
+// Shared with Year 4 this week. Set a different src when Reception gets its own image; null = empty panel.
+const RECEPTION_POSTER = {
+  src: '/thisweek/image_2026-08-31.jpg?v=2',
+  alt: "This week's poster for Dolphin School"
+};
 
 window.WEEK_DATA = WEEK_DATA;
 window.CHIP_RULES = CHIP_RULES;
