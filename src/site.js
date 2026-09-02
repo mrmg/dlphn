@@ -645,8 +645,8 @@ export function initChrome(onViewChange) {
   initYearMenu(onViewChange);
   initSegmented(onViewChange);
   initMenu(onViewChange || undefined);
-  const poster = document.getElementById('poster');
-  if (poster) initZoom(poster);
+  const posterEl = document.getElementById('poster');
+  return { poster: posterEl ? initZoom(posterEl) : null };
 }
 
 function buildModel(view, { data, rules, timetable, weekAStart, dayOverrides }) {
