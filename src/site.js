@@ -514,20 +514,26 @@ export function schoolWeek(weekAStart, today = new Date()) {
   return diffWeeks % 2 === 0 ? 'A' : 'B';
 }
 
-export function daysFromTimetable(timetable, weekLabel, today = new Date()) {
+export function daysFromTimetable(timetable, weekLabel, today = new Date(), dayOverrides = null) {
   const monday = mondayOf(today);
   const todayKey = localDateKey(today);
+  const overrides = dayOverrides && typeof dayOverrides === 'object' ? dayOverrides : null;
   return DAY_NAMES.map((name, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
+    const key = localDateKey(d);
     const week = timetable && timetable[weekLabel];
-    const list = i < 5 && week && week[name.toLowerCase()] ? week[name.toLowerCase()] : [];
+    let list = i < 5 && week && week[name.toLowerCase()] ? week[name.toLowerCase()] : [];
+    // Date-keyed overrides replace the recurring timetable for that day (bank holidays, inset, welcome back, trips).
+    if (overrides && Object.prototype.hasOwnProperty.call(overrides, key)) {
+      list = Array.isArray(overrides[key]) ? overrides[key] : [];
+    }
     return {
       name,
       date: d.getDate(),
       month: MONTHS_SHORT[d.getMonth()],
       chips: list.map(a => ({ label: a.label, cls: a.cls })),
-      isToday: localDateKey(d) === todayKey,
+      isToday: key === todayKey,
       isWeekend: i >= 5,
       dateObj: d
     };
@@ -580,11 +586,11 @@ export function initChrome(onViewChange) {
   if (poster) initZoom(poster);
 }
 
-function buildModel(view, { data, rules, timetable, weekAStart }) {
+function buildModel(view, { data, rules, timetable, weekAStart, dayOverrides }) {
   if (view === 'reception') {
-    const start = weekAStart instanceof Date ? weekAStart : new Date(2026, 1, 9);
+    const start = weekAStart instanceof Date ? weekAStart : new Date(2026, 7, 31);
     const weekLabel = schoolWeek(start);
-    const days = daysFromTimetable(timetable, weekLabel);
+    const days = daysFromTimetable(timetable, weekLabel, new Date(), dayOverrides);
     return { view, label: VIEWS.reception.label, weekLabel, days, liveWeather: true };
   }
   const chipRules = Array.isArray(rules) && rules.length ? rules : DEFAULT_CHIP_RULES;
