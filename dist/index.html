@@ -16,9 +16,9 @@
 <meta property="og:description" content="What's on this week at Dolphin School for Year 4 and Reception: kit days, swimming, clubs and the weekly poster." />
 <meta property="og:image" content="https://dlphn.app/social-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
-  <script type="module" crossorigin src="/assets/main-CAUMxO3b.js"></script>
+  <script type="module" crossorigin src="/assets/main-DTVg8ZdP.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="modulepreload" crossorigin href="/assets/site-Bozha3MW.js">
+  <link rel="modulepreload" crossorigin href="/assets/site-CutrJ3fP.js">
   <link rel="stylesheet" crossorigin href="/assets/site-DBvyCaM2.css">
 </head>
 <body class="week-page" data-year="year4">
@@ -76,8 +76,8 @@ const WEEK_DATA = {
 };
 
 // ── Year 4 fixed weekly items (same every week unless the school says otherwise) ──
-// Swimming every Thursday (Mark, 6 Sep 2026). Games with full Dolphin PE kit Wednesday and Friday.
-// Dance Monday is only confirmed on Week A so far. Keys are mon..fri; leave a day out for nothing fixed.
+// Dance every Monday and Swimming every Thursday (Mark, 6 Sep 2026). Games with full Dolphin PE kit Wednesday and Friday.
+// Keys are mon..fri; leave a day out for nothing fixed.
 const YEAR4_TIMETABLE = {
   A: {
     mon: ['Dance'],
@@ -86,6 +86,7 @@ const YEAR4_TIMETABLE = {
     fri: ['Games - PE Kit']
   },
   B: {
+    mon: ['Dance'],
     wed: ['Games - PE Kit'],
     thu: ['Swimming'],
     fri: ['Games - PE Kit']
@@ -105,20 +106,20 @@ const CHIP_RULES = [
 
 // ── Reception timetable by fortnight (shown at /?reception or /#reception) ──
 // WEEK_A_START is a Monday that was a Week A. Weeks alternate A/B from there.
-// 2026–27 (SchoolBase 2 Sep): PE Mon + Thu (no set kit). Forest School EVERY Friday, Week A and Week B. Music/French not confirmed.
+// 2026–27 (SchoolBase 2 Sep): PE Mon + Thu (no set kit). Dance every Monday (Mark, 6 Sep 2026). Forest School EVERY Friday, Week A and Week B.
 // The week shown follows WEEK_DATA above, so Reception and Year 4 always show the same dates.
 // Classes: chip-forest (green), chip-pe (blue), chip-music (violet), chip-french (rose), chip-event (orange), chip-school (blue).
 const WEEK_A_START = new Date(2026, 7, 31); // Mon 31 Aug 2026 = Week A
 const RECEPTION_TIMETABLE = {
   A: {
-    mon: [{ label:'PE', cls:'chip-pe' }],
+    mon: [{ label:'PE', cls:'chip-pe' }, { label:'Dance', cls:'chip-music' }],
     tue: [],
     wed: [],
     thu: [{ label:'PE', cls:'chip-pe' }],
     fri: [{ label:'Forest School', cls:'chip-forest' }]
   },
   B: {
-    mon: [{ label:'PE', cls:'chip-pe' }],
+    mon: [{ label:'PE', cls:'chip-pe' }, { label:'Dance', cls:'chip-music' }],
     tue: [],
     wed: [],
     thu: [{ label:'PE', cls:'chip-pe' }],

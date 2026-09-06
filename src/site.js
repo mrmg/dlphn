@@ -432,6 +432,8 @@ export function initZoom(poster) {
     poster.classList.toggle('is-contain', useContain);
     scale = baseScale;
     clamp();
+    // Portrait screens crop the poster: start pinned to its left edge, dragging reveals the rest.
+    if (!useContain && imgW * scale > cw + 1) tx = -flexX();
     apply();
   }
 
