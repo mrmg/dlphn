@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>This week | Dolphin School</title>
 <meta name="description" content="What's on this week at Dolphin School for Year 4 and Reception: kit days, swimming, clubs and the weekly poster." />
 <meta name="theme-color" content="#111a2e" />
@@ -31,8 +31,8 @@
   </div>
   <div class="top-right">
     <div class="week-badge">
-      <span class="week" id="weekBadge">Week A</span>
-      <span class="dates" id="dateRange">31 Aug-6 Sep 2026</span>
+      <span class="week" id="weekBadge">Week B</span>
+      <span class="dates" id="dateRange">7-13 September 2026</span>
     </div>
     <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu"><span data-icon="list"></span></button>
   </div>
@@ -41,7 +41,7 @@
 <main class="poster" id="poster">
   <div class="poster-bg" aria-hidden="true"></div>
   <div class="zoom-wrap" id="zoomWrap">
-    <img id="zoomImg" src="/thisweek/image_2026-08-31.jpg?v=2" alt="This week's poster for Dolphin School" fetchpriority="high" />
+    <img id="zoomImg" src="/thisweek/birthday-band-v1.webp" alt="This week's poster for Dolphin School" fetchpriority="high" />
   </div>
   <a href="/gallery" class="icon-btn poster-action" aria-label="Poster gallery"><span data-icon="images"></span></a>
 </main>
@@ -53,20 +53,20 @@
 // weekLabel: a single letter renders as "Week A"; any other text (for example 'Half Term') is shown as written.
 // Each day: name, date, month (short), weather (emoji), temp, activities (plain strings, coloured by CHIP_RULES).
 // Source of truth for kit/days/events: ObsidianVault/School/ (Days.md, Year 4/, Reception/, Calendar.md)
-// Updated from vault 2 Sep 2026. Term began Thu 3 Sep 2026, Week A from Mon 31 Aug.
+// Updated from vault 6 Sep 2026 for w/c 7 Sep (Week B). Week A from Mon 31 Aug; weather from Open-Meteo (Wokingham).
 const WEEK_DATA = {
   year: 2026,
-  startMonth: 8,
-  startDay: 31,
-  weekLabel: 'A',
+  startMonth: 9,
+  startDay: 7,
+  weekLabel: 'B',
   days: [
-    { name:'Mon', date:31, month:'Aug', weather:'🌦', temp:'22°', activities:['Bank Holiday']},
-    { name:'Tue', date:1, month:'Sep', weather:'☁️', temp:'21°', activities:[]},
-    { name:'Wed', date:2, month:'Sep', weather:'🌦', temp:'20°', activities:['Inset Day']},
-    { name:'Thu', date:3, month:'Sep', weather:'☁️', temp:'25°', activities:['Term Begins','Swimming kit?']},
-    { name:'Fri', date:4, month:'Sep', weather:'🌦', temp:'21°', activities:['PE Kit','Welcome Back Event']},
-    { name:'Sat', date:5, month:'Sep', weather:'☁️', temp:'21°', activities:[]},
-    { name:'Sun', date:6, month:'Sep', weather:'☁️', temp:'26°', activities:["Totty's Birthday"]}
+    { name:'Mon', date:7, month:'Sep', weather:'🌦', temp:'22°', activities:['Dance (tbc)']},
+    { name:'Tue', date:8, month:'Sep', weather:'🌦', temp:'19°', activities:[]},
+    { name:'Wed', date:9, month:'Sep', weather:'☁️', temp:'18°', activities:['Games - PE Kit']},
+    { name:'Thu', date:10, month:'Sep', weather:'🌦', temp:'19°', activities:['PE (no kit)','Swimming kit?']},
+    { name:'Fri', date:11, month:'Sep', weather:'🌦', temp:'20°', activities:['Games - PE Kit']},
+    { name:'Sat', date:12, month:'Sep', weather:'🌦', temp:'20°', activities:[]},
+    { name:'Sun', date:13, month:'Sep', weather:'🌦', temp:'20°', activities:[]}
   ]
 };
 
@@ -75,7 +75,7 @@ const WEEK_DATA = {
 const CHIP_RULES = [
   { test: /Birthday/i, cls: 'chip-birthday' },
   { test: /Bank Holiday|Inset|Term Begins|Welcome Back|Meet The Teacher|Parents.? Evening|Flu|Trip|Sports Day|House Colours|Packed Lunch/i, cls: 'chip-school' },
-  { test: /Dance|Swim|PE Kit|Games|PE - Optional|PE — Optional|Swimming kit/i, cls: 'chip-kit' },
+  { test: /Dance|Swim|PE Kit|Games|PE - Optional|PE — Optional|PE \(no kit\)|Swimming kit/i, cls: 'chip-kit' },
   { test: /\bPE\b|Physical Education/i, cls: 'chip-kit' },
   { test: /All Stars|Cricket|Party/i, cls: 'chip-kids' },
   { test: /Mum|Dad|Parent|Forest School|PYJAMARAMA|Discover Dolphin|Digital Detox|Dolphin Forum/i, cls: 'chip-parents' }
@@ -106,17 +106,13 @@ const RECEPTION_TIMETABLE = {
 // One-off day replacements for Reception (date ISO → chips). When set, replaces the recurring timetable for that date.
 // Keep empty most weeks; fill from School/Calendar.md + Reception/Events.md.
 const RECEPTION_DAY_OVERRIDES = {
-  '2026-08-31': [{ label:'Bank Holiday', cls:'chip-school' }],
-  '2026-09-01': [],
-  '2026-09-02': [{ label:'Inset Day', cls:'chip-school' }],
-  '2026-09-03': [{ label:'Term Begins', cls:'chip-school' }, { label:'PE', cls:'chip-pe' }],
-  '2026-09-04': [{ label:'Forest School', cls:'chip-forest' }, { label:'Welcome Back Event', cls:'chip-school' }]
+  // w/c 7 Sep 2026 (Week B): nothing extra, recurring timetable applies (PE Mon and Thu, Forest School Fri).
 };
 
 // ── Reception poster ──
 // Shared with Year 4 this week. Set a different src when Reception gets its own image; null = empty panel.
 const RECEPTION_POSTER = {
-  src: '/thisweek/image_2026-08-31.jpg?v=2',
+  src: '/thisweek/birthday-band-v1.webp',
   alt: "This week's poster for Dolphin School"
 };
 
@@ -126,6 +122,15 @@ window.RECEPTION_POSTER = RECEPTION_POSTER;
 window.WEEK_A_START = WEEK_A_START;
 window.RECEPTION_TIMETABLE = RECEPTION_TIMETABLE;
 window.RECEPTION_DAY_OVERRIDES = RECEPTION_DAY_OVERRIDES;
+
+// ── Weekly theme-quiz feature flag: edit weekId/views when publishing ──
+const WEEKLY_QUIZ = {
+  enabled: false,
+  weekId: null,
+  quizId: 'birthday-tv-film-v1',
+  views: ['year4']
+};
+window.WEEKLY_QUIZ = WEEKLY_QUIZ;
 </script>
 <script type="module">
 import { initWeekPage } from '/src/site.js';
@@ -135,7 +140,8 @@ initWeekPage({
   timetable: window.RECEPTION_TIMETABLE,
   weekAStart: window.WEEK_A_START,
   dayOverrides: window.RECEPTION_DAY_OVERRIDES,
-  posters: { reception: window.RECEPTION_POSTER }
+  posters: { reception: window.RECEPTION_POSTER },
+  weeklyQuiz: window.WEEKLY_QUIZ
 });
 </script>
 

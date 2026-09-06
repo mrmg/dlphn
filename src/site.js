@@ -1,5 +1,8 @@
 // dlphn.app shared behaviour for the weekly pages and the gallery.
 // Icons are Phosphor (regular weight), https://phosphoricons.com, MIT.
+import { initThemeQuiz } from './theme-quiz/index.js';
+import { getRound } from './theme-quiz/registry.js';
+import { isReady, resolveEligibility } from './theme-quiz/state.js';
 
 export const ICONS = {
   caretDown: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
@@ -391,6 +394,7 @@ export function initZoom(poster) {
 
   let imgW = 0, imgH = 0, baseScale = 1, scale = 1, tx = 0, ty = 0;
   let lastDist = 0, panStart = null, lastTap = 0, gestured = false;
+  let fitMode = 'auto';
 
   const flexX = () => (wrap.clientWidth - imgW) / 2;
   const flexY = () => (wrap.clientHeight - imgH) / 2;
@@ -414,7 +418,7 @@ export function initZoom(poster) {
     if (!cw || !ch || !imgW || !imgH) return;
     const contain = Math.min(cw / imgW, ch / imgH);
     const cover = Math.max(cw / imgW, ch / imgH);
-    const useContain = cw / ch >= 1;
+    const useContain = fitMode === 'contain' || cw / ch >= 1;
     baseScale = useContain ? contain : cover;
     poster.classList.toggle('is-contain', useContain);
     scale = baseScale;
@@ -455,7 +459,9 @@ export function initZoom(poster) {
     empty.appendChild(el('span', null, text));
     empty.hidden = false;
   }
-  function setImage(src, alt, emptyText) {
+  function setImage(src, alt, emptyText, options = {}) {
+    if (options && (options.fit === 'contain' || options.fit === 'auto')) fitMode = options.fit;
+    else if (options && options.fit == null) fitMode = 'auto';
     if (!src) {
       img.removeAttribute('src');
       showEmpty(emptyText || 'No poster yet.');
@@ -696,6 +702,41 @@ export function initWeekPage(sources = {}) {
   };
   const galleryLink = document.querySelector('.poster-action');
   let chrome = null;
+  let quiz = null;
+  let quizRound = null;
+  let quizPreview = false;
+  try {
+    const cfg = sources.weeklyQuiz || null;
+    quizRound = cfg && cfg.quizId ? getRound(cfg.quizId) : null;
+    quizPreview = import.meta.env && import.meta.env.DEV && new URLSearchParams(location.search).get('themeQuizPreview') === '1';
+    if (quizPreview) {
+      quizRound = {
+        id: (cfg && cfg.quizId) || 'birthday-tv-film-v1',
+        version: 1,
+        status: 'ready',
+        title: 'Name That Theme',
+        subtitle: 'The birthday edition',
+        poster: { src: '/docs/plans/assets/birthday-band-v1.png', alt: 'QA fixture poster.', fit: 'contain' },
+        questions: [
+          { id: 't01', audio: { src: '/theme-quiz/qa-fixture-v1/t01-v1.mp3', durationSeconds: 1 }, options: [{ id: 'tone-a', label: 'Test tone A' }, { id: 'tone-b', label: 'Test tone B' }, { id: 'tone-c', label: 'Test tone C' }, { id: 'tone-d', label: 'Test tone D' }], correctOptionId: 'tone-a', explanation: 'Fixture tone A for playback checks only.', difficulty: 'easy' },
+          { id: 't02', audio: { src: '/theme-quiz/qa-fixture-v1/t02-v1.mp3', durationSeconds: 1 }, options: [{ id: 'tone-a', label: 'Test tone A' }, { id: 'tone-b', label: 'Test tone B' }, { id: 'tone-c', label: 'Test tone C' }, { id: 'tone-d', label: 'Test tone D' }], correctOptionId: 'tone-b', explanation: 'Fixture tone B for playback checks only.', difficulty: 'easy' }
+        ]
+      };
+    }
+    const posterEl = document.getElementById('poster');
+    if (posterEl && quizRound) quiz = initThemeQuiz({ posterElement: posterEl, config: cfg, round: quizRound });
+  } catch {
+    quiz = null;
+  }
+
+  function weekIdOf(model) {
+    try {
+      if (model.view === 'reception') return localDateKey(mondayOf(new Date()));
+      const first = model.days && model.days[0] && model.days[0].dateObj;
+      if (first) return localDateKey(first);
+    } catch {}
+    return null;
+  }
 
   function render() {
     const views = readViews();
@@ -712,8 +753,28 @@ export function initWeekPage(sources = {}) {
     renderMenu(views);
     if (galleryLink) galleryLink.href = galleryHref(primary.view);
     if (chrome && chrome.poster) {
-      const p = posters[primary.view];
-      chrome.poster.setImage(p && p.src, (p && p.alt) || `This week's poster for ${primary.label}`, `No ${primary.label} poster yet.`);
+      let eligible = false;
+      try {
+        const cfg = sources.weeklyQuiz || null;
+        const weekId = weekIdOf(primary);
+        if (quiz && quizRound && cfg) {
+          if (quizPreview) {
+            eligible = Array.isArray(cfg.views) && cfg.views.includes(primary.view);
+          } else {
+            eligible = resolveEligibility({ config: cfg, round: quizRound, roundReady: isReady(quizRound), primaryView: primary.view, weekId }).eligible;
+          }
+        }
+        if (eligible && quizRound && quizRound.poster && quizRound.poster.src) {
+          chrome.poster.setImage(quizRound.poster.src, quizRound.poster.alt || `This week's poster for ${primary.label}`, `No ${primary.label} poster yet.`, { fit: quizRound.poster.fit || 'contain' });
+        } else {
+          const p = posters[primary.view];
+          chrome.poster.setImage(p && p.src, (p && p.alt) || `This week's poster for ${primary.label}`, `No ${primary.label} poster yet.`);
+        }
+        if (quiz) quiz.updateContext({ primaryView: primary.view, weekId, eligible });
+      } catch {
+        const p = posters[primary.view];
+        chrome.poster.setImage(p && p.src, (p && p.alt) || `This week's poster for ${primary.label}`, `No ${primary.label} poster yet.`);
+      }
     }
     if (wrapper) renderStrips(wrapper, models);
 

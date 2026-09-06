@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "deploy": "vite build && firebase deploy --only hosting",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:theme-quiz": "node --test tests/theme-quiz/*.test.js",
+    "qa:theme-quiz": "node scripts/qa-theme-quiz.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
