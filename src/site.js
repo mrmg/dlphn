@@ -365,19 +365,28 @@ function scrollTodayIntoView(container) {
 }
 
 // Build the day list from the inline WEEK_DATA block.
-export function daysFromWeekData(data, rules = DEFAULT_CHIP_RULES) {
+export function daysFromWeekData(data, rules = DEFAULT_CHIP_RULES, timetable = null) {
   if (!data || !Array.isArray(data.days)) return [];
   const todayKey = localDateKey(new Date());
+  const weekLabel = String(data.weekLabel || '').trim().toUpperCase();
+  const recurring = timetable && timetable[weekLabel] ? timetable[weekLabel] : null;
   return data.days.map((d, i) => {
     const monthIndex = d.month ? MONTHS_SHORT.indexOf(String(d.month).slice(0, 3)) : data.startMonth - 1;
     const date = new Date(data.year, monthIndex, d.date);
+    // Recurring items for this weekday come first, then the week's one-offs (skipping duplicates).
+    const fixed = recurring && i < 5 && recurring[String(d.name).toLowerCase().slice(0, 3)] || [];
+    const labels = [];
+    fixed.forEach(a => { const label = typeof a === 'string' ? a : a.label; if (label) labels.push(label); });
+    (d.activities || []).forEach(label => {
+      if (!labels.some(x => x.toLowerCase() === String(label).toLowerCase())) labels.push(label);
+    });
     return {
       name: d.name,
       date: d.date,
       month: MONTHS_SHORT[monthIndex] || '',
       weather: d.weather,
       temp: d.temp,
-      chips: (d.activities || []).map(label => ({ label, cls: classifyActivity(label, rules) })),
+      chips: labels.map(label => ({ label, cls: classifyActivity(label, rules) })),
       isToday: localDateKey(date) === todayKey,
       isWeekend: i >= 5,
       dateObj: date
@@ -585,9 +594,9 @@ export function schoolWeek(weekAStart, today = new Date()) {
   return diffWeeks % 2 === 0 ? 'A' : 'B';
 }
 
-export function daysFromTimetable(timetable, weekLabel, today = new Date(), dayOverrides = null) {
-  const monday = mondayOf(today);
-  const todayKey = localDateKey(today);
+export function daysFromTimetable(timetable, weekLabel, anchor = new Date(), dayOverrides = null) {
+  const monday = mondayOf(anchor);
+  const todayKey = localDateKey(new Date());
   const overrides = dayOverrides && typeof dayOverrides === 'object' ? dayOverrides : null;
   return DAY_NAMES.map((name, i) => {
     const d = new Date(monday);
@@ -657,16 +666,25 @@ export function initChrome(onViewChange) {
   return { poster: posterEl ? initZoom(posterEl) : null };
 }
 
-function buildModel(view, { data, rules, timetable, weekAStart, dayOverrides }) {
+// The week on show is the one WEEK_DATA describes (falls back to the current week). Both year groups use it,
+// and its A/B label, so the header, dates and strips always agree.
+export function weekAnchor(data) {
+  if (data && data.year && data.startMonth && data.startDay) return new Date(data.year, data.startMonth - 1, data.startDay);
+  return mondayOf(new Date());
+}
+
+function buildModel(view, { data, rules, timetable, year4Timetable, weekAStart, dayOverrides }) {
+  const anchor = weekAnchor(data);
+  const start = weekAStart instanceof Date ? weekAStart : new Date(2026, 7, 31);
+  const given = data && /^[A-Za-z]$/.test(String(data.weekLabel || '').trim()) ? String(data.weekLabel).trim().toUpperCase() : null;
+  const weekLabel = given || schoolWeek(start, anchor);
   if (view === 'reception') {
-    const start = weekAStart instanceof Date ? weekAStart : new Date(2026, 7, 31);
-    const weekLabel = schoolWeek(start);
-    const days = daysFromTimetable(timetable, weekLabel, new Date(), dayOverrides);
+    const days = daysFromTimetable(timetable, weekLabel, anchor, dayOverrides);
     return { view, label: VIEWS.reception.label, weekLabel, days, liveWeather: true };
   }
   const chipRules = Array.isArray(rules) && rules.length ? rules : DEFAULT_CHIP_RULES;
-  const days = daysFromWeekData(data, chipRules);
-  return { view, label: VIEWS.year4.label, weekLabel: data ? data.weekLabel : '', days, liveWeather: false };
+  const days = daysFromWeekData(data, chipRules, year4Timetable);
+  return { view, label: VIEWS.year4.label, weekLabel: data && data.weekLabel ? data.weekLabel : weekLabel, days, liveWeather: false };
 }
 
 function rangeOf(days) {
