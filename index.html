@@ -31,8 +31,8 @@
   </div>
   <div class="top-right">
     <div class="week-badge">
-      <span class="week" id="weekBadge">Week B</span>
-      <span class="dates" id="dateRange">7-13 September 2026</span>
+      <span class="week" id="weekBadge">Week A</span>
+      <span class="dates" id="dateRange">14-20 September 2026</span>
     </div>
     <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu"><span data-icon="list"></span></button>
   </div>
@@ -41,7 +41,7 @@
 <main class="poster" id="poster">
   <div class="poster-bg" aria-hidden="true"></div>
   <div class="zoom-wrap" id="zoomWrap">
-    <img id="zoomImg" src="/thisweek/birthday-band-v1.webp" alt="This week's poster for Dolphin School" fetchpriority="high" />
+    <img id="zoomImg" src="/thisweek/image_2026-09-14.jpg?v=1" alt="This week's poster for Dolphin School" fetchpriority="high" />
   </div>
   <a href="/gallery" class="icon-btn poster-action" aria-label="Poster gallery"><span data-icon="images"></span></a>
 </main>
@@ -55,37 +55,40 @@
 // Each day: name, date, month (short), weather (emoji), temp, activities = ONE-OFFS only (plain strings, coloured
 // by CHIP_RULES). Fixed weekly items (swimming, kit days) live in YEAR4_TIMETABLE below and are added automatically.
 // Source of truth for kit/days/events: ObsidianVault/School/ (Days.md, Year 4/, Reception/, Calendar.md)
-// Updated from vault 6 Sep 2026 for w/c 7 Sep (Week B). Week A from Mon 31 Aug; weather from Open-Meteo (Wokingham).
+// Updated from vault 13 Sep 2026 for w/c 14 Sep (Week A). Weather from Open-Meteo (Wokingham) 13 Sep 2026.
 const WEEK_DATA = {
   year: 2026,
   startMonth: 9,
-  startDay: 7,
-  weekLabel: 'B',
+  startDay: 14,
+  weekLabel: 'A',
   days: [
-    { name:'Mon', date:7, month:'Sep', weather:'🌦', temp:'22°', activities:[]},
-    { name:'Tue', date:8, month:'Sep', weather:'🌦', temp:'19°', activities:[]},
-    { name:'Wed', date:9, month:'Sep', weather:'☁️', temp:'18°', activities:[]},
-    { name:'Thu', date:10, month:'Sep', weather:'🌦', temp:'19°', activities:[]},
-    { name:'Fri', date:11, month:'Sep', weather:'🌦', temp:'20°', activities:[]},
-    { name:'Sat', date:12, month:'Sep', weather:'🌦', temp:'20°', activities:[]},
-    { name:'Sun', date:13, month:'Sep', weather:'🌦', temp:'20°', activities:[]}
+    { name:'Mon', date:14, month:'Sep', weather:'☁️', temp:'24°', activities:[]},
+    { name:'Tue', date:15, month:'Sep', weather:'☁️', temp:'22°', activities:[]},
+    { name:'Wed', date:16, month:'Sep', weather:'☁️', temp:'18°', activities:[]},
+    { name:'Thu', date:17, month:'Sep', weather:'🌦', temp:'19°', activities:[]},
+    { name:'Fri', date:18, month:'Sep', weather:'🌦', temp:'19°', activities:[]},
+    { name:'Sat', date:19, month:'Sep', weather:'☁️', temp:'18°', activities:[]},
+    { name:'Sun', date:20, month:'Sep', weather:'⛅', temp:'19°', activities:[]}
   ]
 };
 
 // ── Year 4 fixed weekly items (same every week unless the school says otherwise) ──
 // Dance every Monday and Swimming every Thursday (Mark, 6 Sep 2026). Games with full Dolphin PE kit Wednesday and Friday.
+// Reading book Mon, Tue and Thu — Form Time is Reading and Registration those days (school reminder, 6 Sep 2026).
 // Keys are mon..fri; leave a day out for nothing fixed.
 const YEAR4_TIMETABLE = {
   A: {
-    mon: ['Dance'],
+    mon: ['Dance', 'Reading book'],
+    tue: ['Reading book'],
     wed: ['Games - PE Kit'],
-    thu: ['Swimming'],
+    thu: ['Swimming', 'Reading book'],
     fri: ['Games - PE Kit']
   },
   B: {
-    mon: ['Dance'],
+    mon: ['Dance', 'Reading book'],
+    tue: ['Reading book'],
     wed: ['Games - PE Kit'],
-    thu: ['Swimming'],
+    thu: ['Swimming', 'Reading book'],
     fri: ['Games - PE Kit']
   }
 };
@@ -94,7 +97,7 @@ const YEAR4_TIMETABLE = {
 // Classes: chip-kit (green), chip-school (blue), chip-kids (orange), chip-parents (violet), chip-birthday (rose).
 const CHIP_RULES = [
   { test: /Birthday/i, cls: 'chip-birthday' },
-  { test: /Bank Holiday|Inset|Term Begins|Welcome Back|Meet The Teacher|Parents.? Evening|Flu|Trip|Sports Day|House Colours|Packed Lunch/i, cls: 'chip-school' },
+  { test: /Bank Holiday|Inset|Term Begins|Welcome Back|Meet The Teacher|Parents.? Evening|Flu|Trip|Sports Day|House Colours|Packed Lunch|Reading book/i, cls: 'chip-school' },
   { test: /Dance|Swim|PE Kit|Games|PE - Optional|PE — Optional|PE \(no kit\)|Swimming kit/i, cls: 'chip-kit' },
   { test: /\bPE\b|Physical Education/i, cls: 'chip-kit' },
   { test: /All Stars|Cricket|Party/i, cls: 'chip-kids' },
@@ -127,14 +130,18 @@ const RECEPTION_TIMETABLE = {
 // One-off day replacements for Reception (date ISO → chips). When set, replaces the recurring timetable for that date.
 // Keep empty most weeks; fill from School/Calendar.md + Reception/Events.md.
 const RECEPTION_DAY_OVERRIDES = {
-  // w/c 7 Sep 2026 (Week B): nothing extra, recurring timetable applies (PE Mon and Thu, Forest School Fri).
+  // Mon 14 Sep 2026 — Pre-Prep Meet The Teacher (3:45–4:30). Keep PE + Dance with the one-off.
+  '2026-09-14': [
+    { label: 'PE', cls: 'chip-pe' },
+    { label: 'Dance', cls: 'chip-music' },
+    { label: 'Meet The Teacher', cls: 'chip-event' }
+  ]
 };
 
 // ── Reception poster ──
-// Shared with Year 4 this week. Set a different src when Reception gets its own image; null = empty panel.
 const RECEPTION_POSTER = {
-  src: '/thisweek/birthday-band-v1.webp',
-  alt: "This week's poster for Dolphin School"
+  src: '/thisweek/image_2026-09-14-reception.jpg?v=1',
+  alt: "Farm birthday pizza party cartoon for Reception this week"
 };
 
 window.WEEK_DATA = WEEK_DATA;
@@ -148,9 +155,10 @@ window.RECEPTION_DAY_OVERRIDES = RECEPTION_DAY_OVERRIDES;
 // ── Weekly theme-quiz feature flag: edit weekId/views when publishing ──
 const WEEKLY_QUIZ = {
   enabled: false,
-  weekId: null,
+  weekId: '2026-09-14',
+  weekIds: { reception: 'current' },
   quizId: 'birthday-tv-film-v1',
-  views: ['year4']
+  views: []
 };
 window.WEEKLY_QUIZ = WEEKLY_QUIZ;
 </script>
